@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity(), RecyclerViewAdapter.OnItemClickListene
             recyclerView.adapter = RecyclerViewAdapter(
                 tasks,
                 this)
-//                itemPosition = )
+
         })
 
         // Кнопка добавления задания

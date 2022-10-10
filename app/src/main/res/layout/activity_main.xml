@@ -8,7 +8,7 @@
     android:id="@+id/rootLayout"
     tools:context=".view.MainActivity"
     android:background="#fdfdfc">
-    <LinearLayout
+    <RadioGroup
         android:id="@+id/fild_for_btns"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -16,29 +16,30 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:orientation="horizontal">
-        <Button
+        <RadioButton
             android:id="@+id/btn_all"
-            android:layout_width="120dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Все"
-            android:layout_margin="4dp"
+            android:checked="true"
+            android:layout_margin="16dp"
             android:layout_weight="1"/>
-        <Button
+        <RadioButton
             android:id="@+id/btn_active"
-            android:layout_width="120dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="В работе"
-            android:layout_margin="4dp"
+            android:layout_margin="16dp"
             android:layout_weight="1"/>
-        <Button
+        <RadioButton
             android:id="@+id/btn_complete"
-            android:layout_width="120dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Готово"
-            android:layout_margin="4dp"
+            android:layout_margin="16dp"
             android:layout_weight="1"/>
 
-    </LinearLayout>
+    </RadioGroup>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
