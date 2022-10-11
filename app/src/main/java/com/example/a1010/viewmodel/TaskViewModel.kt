@@ -11,7 +11,12 @@ import kotlinx.coroutines.launch
 
 class TaskViewModel(application: Application): AndroidViewModel(application){
     private val db: RoomSingleton = RoomSingleton.getInstance(application)
+    //Получение списка всех задач
     internal val allTasks : LiveData<List<Task>> = db.taskDao().allTasks()
+    //Получение списка выполненых задач
+    internal val allCompleteTasks : LiveData<List<Task>> = db.taskDao().allCompleteTasks()
+    //Получение списка невыполненных задач
+    internal val allActiveTasks : LiveData<List<Task>> = db.taskDao().allActiveTasks()
 
     // private val tasks: MutableLiveData<List<Task>> = MutableLiveData(listOf())
 
@@ -40,4 +45,6 @@ class TaskViewModel(application: Application): AndroidViewModel(application){
         }
 
     }
+
+
 }

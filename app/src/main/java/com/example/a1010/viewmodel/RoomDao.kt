@@ -9,6 +9,12 @@ interface TaskDao{
     @Query("SELECT * FROM tasks ORDER BY id DESC")
     fun allTasks(): LiveData<List<Task>>
 
+    @Query("SELECT * FROM tasks WHERE status = 1")
+    fun allCompleteTasks(): LiveData<List<Task>>
+
+    @Query("SELECT * FROM tasks WHERE status = 0")
+    fun allActiveTasks(): LiveData<List<Task>>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(task: Task)
 

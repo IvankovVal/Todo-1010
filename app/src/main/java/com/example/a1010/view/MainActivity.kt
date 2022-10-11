@@ -3,6 +3,7 @@ package com.example.a1010.view
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import android.widget.RadioGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -29,14 +30,20 @@ class MainActivity : AppCompatActivity(), RecyclerViewAdapter.OnItemClickListene
             this, RecyclerView.VERTICAL,false)
         recyclerView.layoutManager = linearLayoutManager
 
-        // Observe the model
-        model.allTasks.observe(this, Observer{ tasks->
-            // Data bind the recycler view
-            recyclerView.adapter = RecyclerViewAdapter(
-                tasks,
-                this)
-
-        })
+val rb_group:RadioGroup = findViewById(R.id.fild_for_btns)
+        var checkedRbtn:Int = rb_group.checkedRadioButtonId
+        rb_group.setOnCheckedChangeListener { group, checkedId ->
+            when(checkedId){
+                R.id.btn_all->model.allTasks.observe(this, Observer{ tasks->
+                    // Data bind the recycler view
+                    recyclerView.adapter = RecyclerViewAdapter(tasks,this)})
+                R.id.btn_complete->model.allCompleteTasks.observe(this, Observer{ tasks->
+                    // Data bind the recycler view
+                    recyclerView.adapter = RecyclerViewAdapter(tasks,this) })
+                R.id.btn_active->model.allActiveTasks.observe(this, Observer{ tasks->
+                    // Data bind the recycler view
+                    recyclerView.adapter = RecyclerViewAdapter(tasks,this)})
+        }}
 
         // Кнопка добавления задания
         val btn: Button = findViewById(R.id.btn)
