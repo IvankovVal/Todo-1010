@@ -60,9 +60,19 @@ class TaskViewModel(application: Application): AndroidViewModel(application){
         }
     }
 
-    fun delete_task (task: TaskModel){
+    fun delete_task (id:Int){
         viewModelScope.launch(Dispatchers.IO) {
-           // db.taskDao().delete_task(task)
+            val callDeleteTask: Call<ResponseBody?>? = ApiClient.instance?.api?.deleteMyTask(id)
+
+            callDeleteTask?.enqueue(object : Callback<ResponseBody?> {
+                override fun onResponse(call: Call<ResponseBody?>, response: Response<ResponseBody?>) {
+                    //Toast.makeText(context,"Задача удалена",Toast.LENGTH_SHORT).show()
+                }
+
+                override fun onFailure(call: Call<ResponseBody?>, t: Throwable) {
+                    // Toast.makeText( context,"ОШИБКА! ВКЛЮЧИТЕ ИНТЕРНЕТ!",Toast.LENGTH_SHORT).show()
+                }
+            })
         }
     }
 

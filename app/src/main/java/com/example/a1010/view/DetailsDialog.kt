@@ -39,7 +39,7 @@ class DetailsDialog(var itemPosition: Int): BottomSheetDialogFragment() {
 
         binding?.btnDelete?.setOnClickListener {
 
-            model.delete_task(task = task)
+            model.delete_task(task.id!!.toInt())
             dialog?.cancel()
         }
 
