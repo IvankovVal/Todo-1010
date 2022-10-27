@@ -15,10 +15,11 @@ import retrofit2.Response
 
 class TaskViewModel(application: Application): AndroidViewModel(application){
     val db: MutableLiveData<ArrayList<TaskModel>> by lazy { MutableLiveData<ArrayList<TaskModel>>() }
+    val activeTasks: MutableLiveData<ArrayList<TaskModel>> by lazy { MutableLiveData<ArrayList<TaskModel>>() }
+    val completeTasks: MutableLiveData<ArrayList<TaskModel>> by lazy { MutableLiveData<ArrayList<TaskModel>>() }
     init {
         getAllTasks()
     }
-
     //-------------Функция получения всех задач-------------------------------------------
     fun getAllTasks() {
 
@@ -40,7 +41,49 @@ class TaskViewModel(application: Application): AndroidViewModel(application){
         })
 
     }
+    //-------------Функция получения списка "В работе"-------------------------------------------
+    fun getActiveTasks() {
 
+        val callActiveTasks = ApiClient.instance?.api?.getMyActiveTask()
+        callActiveTasks?.enqueue(object : Callback<ArrayList<TaskModel>> {
+            override fun onResponse(
+                call: Call<ArrayList<TaskModel>>,
+                response: Response<ArrayList<TaskModel>>
+            ) {
+//-------------переменная со списком
+                val loadTasks = response.body()
+                activeTasks.postValue(loadTasks)
+            }
+
+            override fun onFailure(call: Call<ArrayList<TaskModel>>, t: Throwable) {
+                // Toast.makeText(this@MainActivity, "ОШИБКА! ВКЛЮЧИТЕ ИНТЕРНЕТ!", Toast.LENGTH_SHORT).show()
+
+            }
+        })
+
+    }
+    //-------------Функция получения списка "Готово"-------------------------------------------
+    fun getCompliteTasks() {
+
+        val callActiveTasks = ApiClient.instance?.api?.getMyCompleteTask()
+        callActiveTasks?.enqueue(object : Callback<ArrayList<TaskModel>> {
+            override fun onResponse(
+                call: Call<ArrayList<TaskModel>>,
+                response: Response<ArrayList<TaskModel>>
+            ) {
+//-------------переменная со списком
+                val loadTasks = response.body()
+                completeTasks.postValue(loadTasks)
+            }
+
+            override fun onFailure(call: Call<ArrayList<TaskModel>>, t: Throwable) {
+                // Toast.makeText(this@MainActivity, "ОШИБКА! ВКЛЮЧИТЕ ИНТЕРНЕТ!", Toast.LENGTH_SHORT).show()
+
+            }
+        })
+
+    }
+    //-------------Функция добавления задачи-------------------------------------------
     fun insert(name: String?, status: Boolean){
         viewModelScope.launch(Dispatchers.IO) {
             //db.taskDao().insert(task)

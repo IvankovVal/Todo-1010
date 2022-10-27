@@ -32,7 +32,12 @@ class RecyclerViewAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.id.text = tasks[position].id.toString()
         holder.name.text = tasks[position].name
-       // holder.chekbox.isChecked = tasks[position].status
+        holder.tvStatus.text = tasks[position].status.toString()
+        //holder.chekbox.isChecked = tasks[position].status.
+        holder.chekbox.isChecked = if(tasks[position].status == 1) true else false
+
+        //if (tasks[position].status == 1) holder.chekbox.isChecked
+
         holder.chekbox.setOnCheckedChangeListener {buttonView, isChecked ->
             if (isChecked){
             listener.onCheckBoxClick(tasks[position], isChecked = true)
@@ -65,6 +70,7 @@ class RecyclerViewAdapter(
         val id: TextView = itemView.findViewById(R.id.tvId)
         val name: TextView = itemView.findViewById(R.id.tvName)
         val chekbox: CheckBox = itemView.findViewById(R.id.cbStatus)
+        val tvStatus:TextView = itemView.findViewById(R.id.tvStatus)
 
         init {
             itemView.setOnClickListener(this)

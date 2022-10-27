@@ -12,5 +12,5 @@ class TaskModel (
     @SerializedName("name") @Expose
     var name: String? = null,
     @SerializedName("status") @Expose
-    var status: Boolean? = null
+    var status: Int? = null
 )

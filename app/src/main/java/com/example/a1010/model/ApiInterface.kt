@@ -37,11 +37,15 @@ interface ApiInterface {
     //Запрос списка "все"
     @GET("getAllTasks.php")
     fun getAllMyTask(): Call<ArrayList<TaskModel>>
+
     //Запрос списка "готово"
-    @GET("getMyCompliteTask.php")
-    fun getMyCompliteTask(): Call<ArrayList<TaskModel>>
+    @GET("getMyCompleteTask.php")
+    fun getMyCompleteTask(): Call<ArrayList<TaskModel>>
+
     //Запрос списка "в работе"
     @GET("getActiveTask.php")
     fun getMyActiveTask(): Call<ArrayList<TaskModel>>
+
+
 
 }

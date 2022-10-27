@@ -37,12 +37,14 @@ class DetailsDialog(var itemPosition: Int): BottomSheetDialogFragment() {
             dialog?.cancel()
         }
 
+        //Кнопка удаления задачи
         binding?.btnDelete?.setOnClickListener {
 
             model.delete_task(task.id!!.toInt())
             dialog?.cancel()
         }
 
+        //Кнопка редактирования задачи
         binding?.btnEdit?.setOnClickListener {
 
             //в таск кладём id этого task и имя задачи из edittext
