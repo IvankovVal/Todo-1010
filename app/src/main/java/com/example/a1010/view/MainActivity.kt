@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.a1010.R
 import com.example.a1010.model.Task
+import com.example.a1010.model.TaskModel
 import com.example.a1010.viewmodel.TaskViewModel
 
 class MainActivity : AppCompatActivity(), RecyclerViewAdapter.OnItemClickListener {
@@ -61,7 +62,7 @@ val rb_group:RadioGroup = findViewById(R.id.fild_for_btns)
         ditaile_dialog.show(manager,"add_dialog")
     }
 
-    override fun onCheckBoxClick(task: Task, isChecked: Boolean) {
+    override fun onCheckBoxClick(task: TaskModel, isChecked: Boolean) {
         model.onTaskCheckedChange(task, isChecked)
     }
 

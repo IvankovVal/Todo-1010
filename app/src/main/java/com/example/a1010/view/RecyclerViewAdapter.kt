@@ -10,10 +10,11 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.a1010.R
 import com.example.a1010.model.Task
+import com.example.a1010.model.TaskModel
 import com.example.a1010.viewmodel.TaskViewModel
 
 class RecyclerViewAdapter(
-    val tasks: List<Task>,
+    val tasks: List<TaskModel>,
     private val listener: OnItemClickListener
     //var itemPosition: Int
 )
@@ -79,6 +80,6 @@ class RecyclerViewAdapter(
     }
     interface OnItemClickListener{
         fun onItemClick(position: Int)
-        fun onCheckBoxClick(task: Task,isChecked:Boolean)
+        fun onCheckBoxClick(task: TaskModel,isChecked:Boolean)
     }
 }

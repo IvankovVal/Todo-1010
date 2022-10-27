@@ -9,7 +9,7 @@ import android.widget.EditText
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProviders
 import com.example.a1010.R
-import com.example.a1010.model.Task
+import com.example.a1010.model.TaskModel
 import com.example.a1010.viewmodel.TaskViewModel
 
 class AddTaskDialog: DialogFragment() {
@@ -32,7 +32,7 @@ class AddTaskDialog: DialogFragment() {
         }
 
         btn_save.setOnClickListener {
-            model.insert(Task(null, name = et_add_task.text.toString(),false ))
+            model.insert(TaskModel(null, name = et_add_task.text.toString(),false ))
             dialog?.cancel()
 
         }
