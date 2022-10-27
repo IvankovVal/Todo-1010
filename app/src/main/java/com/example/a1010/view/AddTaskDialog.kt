@@ -9,7 +9,6 @@ import android.widget.EditText
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProviders
 import com.example.a1010.R
-import com.example.a1010.model.TaskModel
 import com.example.a1010.viewmodel.TaskViewModel
 
 class AddTaskDialog: DialogFragment() {
@@ -24,7 +23,7 @@ class AddTaskDialog: DialogFragment() {
         val btn_save: Button = view.findViewById(R.id.btn_save)
         val btn_cancel: Button = view.findViewById(R.id.btn_cancel)
         val et_add_task: EditText = view.findViewById(R.id.et_add_task)
-        model = ViewModelProviders.of(this).get(TaskViewModel::class.java)//Можго ли добавлять 2 раза??
+        model = ViewModelProviders.of(this).get(TaskViewModel::class.java)
 
         //Кнопка выключения диалога
         btn_cancel.setOnClickListener {
@@ -32,7 +31,7 @@ class AddTaskDialog: DialogFragment() {
         }
 
         btn_save.setOnClickListener {
-            model.insert(TaskModel(null, name = et_add_task.text.toString(),false ))
+            model.insert(et_add_task.text.toString(),false )
             dialog?.cancel()
 
         }

@@ -8,6 +8,7 @@ import com.example.a1010.model.ApiClient
 import com.example.a1010.model.TaskModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -40,10 +41,22 @@ class TaskViewModel(application: Application): AndroidViewModel(application){
 
     }
 
-    fun insert(task: TaskModel){
+    fun insert(name: String?, status: Boolean){
         viewModelScope.launch(Dispatchers.IO) {
             //db.taskDao().insert(task)
             // tasks.value = tasks.value!!.plus(task)
+            val callInsertTask: Call<ResponseBody?>? = ApiClient.instance?.api?.insertMyTask(name, status)
+            callInsertTask?.enqueue(object : Callback<ResponseBody?> {
+                override fun onResponse(call: Call<ResponseBody?>, response: Response<ResponseBody?>) {
+
+                    //Toast.makeText(this, "Задача добавлена", Toast.LENGTH_SHORT).show()
+                }
+
+                override fun onFailure(call: Call<ResponseBody?>, t: Throwable) {
+
+                    //Toast.makeText(this, "ОШИБКА", Toast.LENGTH_SHORT).show()
+                }
+            })
         }
     }
 
