@@ -10,7 +10,6 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.a1010.R
-import com.example.a1010.model.Task
 import com.example.a1010.model.TaskModel
 import com.example.a1010.viewmodel.TaskViewModel
 
@@ -35,13 +34,13 @@ val rb_group:RadioGroup = findViewById(R.id.fild_for_btns)
         var checkedRbtn:Int = rb_group.checkedRadioButtonId
         rb_group.setOnCheckedChangeListener { group, checkedId ->
             when(checkedId){
-                R.id.btn_all->model.allTasks.observe(this, Observer{ tasks->
+                R.id.btn_all->model.db.observe(this, Observer{ tasks->
                     // Data bind the recycler view
                     recyclerView.adapter = RecyclerViewAdapter(tasks,this)})
-                R.id.btn_complete->model.allCompleteTasks.observe(this, Observer{ tasks->
+                R.id.btn_complete->model.db.observe(this, Observer{ tasks->
                     // Data bind the recycler view
                     recyclerView.adapter = RecyclerViewAdapter(tasks,this) })
-                R.id.btn_active->model.allActiveTasks.observe(this, Observer{ tasks->
+                R.id.btn_active->model.db.observe(this, Observer{ tasks->
                     // Data bind the recycler view
                     recyclerView.adapter = RecyclerViewAdapter(tasks,this)})
         }}

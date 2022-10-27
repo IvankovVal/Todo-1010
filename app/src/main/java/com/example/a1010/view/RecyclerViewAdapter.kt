@@ -9,7 +9,6 @@ import android.widget.CheckBox
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.a1010.R
-import com.example.a1010.model.Task
 import com.example.a1010.model.TaskModel
 import com.example.a1010.viewmodel.TaskViewModel
 
@@ -33,7 +32,7 @@ class RecyclerViewAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.id.text = tasks[position].id.toString()
         holder.name.text = tasks[position].name
-        holder.chekbox.isChecked = tasks[position].status
+       // holder.chekbox.isChecked = tasks[position].status
         holder.chekbox.setOnCheckedChangeListener {buttonView, isChecked ->
             if (isChecked){
             listener.onCheckBoxClick(tasks[position], isChecked = true)
