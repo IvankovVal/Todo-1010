@@ -13,7 +13,7 @@ interface ApiInterface {
     @POST("insertTask.php")
     fun insertMyTask(
         @Field("name") name: String?,
-        @Field("status") status: Boolean?
+        @Field("status") status: Int
     ): Call<ResponseBody?>?
 
 
@@ -23,7 +23,7 @@ interface ApiInterface {
     fun updateMyTask(
         @Field("id") id: Int,
         @Field("name") name: String?,
-        @Field("status") status: Boolean?
+        @Field("status") status: Int?
     ): Call<ResponseBody?>?
 
     //Удаление задачи

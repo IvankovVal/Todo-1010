@@ -84,10 +84,8 @@ class TaskViewModel(application: Application): AndroidViewModel(application){
 
     }
     //-------------Функция добавления задачи-------------------------------------------
-    fun insert(name: String?, status: Boolean){
+    fun insert(name: String?, status: Int){
         viewModelScope.launch(Dispatchers.IO) {
-            //db.taskDao().insert(task)
-            // tasks.value = tasks.value!!.plus(task)
             val callInsertTask: Call<ResponseBody?>? = ApiClient.instance?.api?.insertMyTask(name, status)
             callInsertTask?.enqueue(object : Callback<ResponseBody?> {
                 override fun onResponse(call: Call<ResponseBody?>, response: Response<ResponseBody?>) {
@@ -119,10 +117,22 @@ class TaskViewModel(application: Application): AndroidViewModel(application){
         }
     }
 
-    fun update_task (task: TaskModel){
-        viewModelScope.launch(Dispatchers.IO) {
-           // db.taskDao().update_task(task)
-        }
+    fun update_task(id: Int, name: String?, status: Int?) {   // { //(task: TaskModel)
+        val callUpdateCategory = ApiClient.instance?.api?.updateMyTask(id,name,status)
+
+        callUpdateCategory?.enqueue(object : retrofit2.Callback<ResponseBody?> {
+            override fun onResponse(call: Call<ResponseBody?>, response: Response<ResponseBody?>) {
+                //Toast.makeText(this,"Задача обновлена",Toast.LENGTH_SHORT).show()
+
+               // loadScreen()
+
+            }
+
+            override fun onFailure(call: Call<ResponseBody?>, t: Throwable) {
+               // Toast.makeText(context,"ОШИБКА! ВКЛЮЧИТЕ ИНТЕРНЕТ!",Toast.LENGTH_SHORT).show()
+            }
+        })
+
     }
 
     fun onTaskCheckedChange(task: TaskModel, checked: Boolean) {

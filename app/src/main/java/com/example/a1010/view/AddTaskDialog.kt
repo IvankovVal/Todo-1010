@@ -31,7 +31,7 @@ class AddTaskDialog: DialogFragment() {
         }
 
         btn_save.setOnClickListener {
-            model.insert(et_add_task.text.toString(),false )
+            model.insert(et_add_task.text.toString(),0 )
             dialog?.cancel()
 
         }
