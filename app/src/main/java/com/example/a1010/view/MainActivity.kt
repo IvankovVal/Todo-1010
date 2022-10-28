@@ -41,7 +41,7 @@ val rb_group:RadioGroup = findViewById(R.id.fild_for_btns)
                     recyclerView.adapter = RecyclerViewAdapter(tasks,this)})
                 R.id.btn_complete->
                     //Обновить
-                    model.completeTasks.observe(this, Observer{ tasks->
+                    model.db.observe(this, Observer{ tasks->
                     // Data bind the recycler view
                     recyclerView.adapter = RecyclerViewAdapter(tasks,this) })
                 R.id.btn_active->
