@@ -72,7 +72,7 @@ class MainActivity : AppCompatActivity(), RecyclerViewAdapter.OnItemClickListene
         ditaile_dialog.show(manager,"add_dialog")
     }
 
-    override fun onCheckBoxClick(task: TaskModel, isChecked: Boolean) {
+    override fun onCheckBoxClick(task: TaskModel, isChecked: Int) {
         model.onTaskCheckedChange(task, isChecked)
     }
 }

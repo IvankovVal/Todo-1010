@@ -43,12 +43,12 @@ class RecyclerViewAdapter(
 
         holder.chekbox.setOnCheckedChangeListener {buttonView, isChecked ->
             if (isChecked){
-            listener.onCheckBoxClick(tasks[position], isChecked = true)
+            listener.onCheckBoxClick(tasks[position], isChecked = 1)
                 holder.name.setTypeface(null, Typeface.ITALIC)
                 holder.listCard.setCardBackgroundColor(Color.GRAY)
         }
            else{
-                listener.onCheckBoxClick(tasks[position], isChecked = false)
+                listener.onCheckBoxClick(tasks[position], isChecked = 0)
                 holder.name.setTypeface(null, Typeface.BOLD)
                 holder.listCard.setCardBackgroundColor(Color.WHITE)
            }
@@ -92,6 +92,6 @@ class RecyclerViewAdapter(
     }
     interface OnItemClickListener{
         fun onItemClick(position: Int)
-        fun onCheckBoxClick(task: TaskModel,isChecked:Boolean)
+        fun onCheckBoxClick(task: TaskModel,isChecked:Int)
     }
 }

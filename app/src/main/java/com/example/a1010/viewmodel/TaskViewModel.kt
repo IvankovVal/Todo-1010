@@ -128,7 +128,8 @@ class TaskViewModel(application: Application): AndroidViewModel(application){
             })
         }
     }
-    fun update_task(id: Int, name: String?, status: Int?) {   // { //(task: TaskModel)
+    fun update_task(id: Int, name: String?, status: Int?) {
+        viewModelScope.launch(Dispatchers.IO) {
         val callUpdateCategory = ApiClient.instance?.api?.updateMyTask(id,name,status)
 
         callUpdateCategory?.enqueue(object : retrofit2.Callback<ResponseBody?> {
@@ -139,13 +140,24 @@ class TaskViewModel(application: Application): AndroidViewModel(application){
                // Toast.makeText(context,"ОШИБКА! ВКЛЮЧИТЕ ИНТЕРНЕТ!",Toast.LENGTH_SHORT).show()
             }
         })
-    }
-    fun onTaskCheckedChange(task: TaskModel, checked: Boolean) {
+    }}
+    fun onTaskCheckedChange(task: TaskModel, checked: Int) {
         viewModelScope.launch(Dispatchers.IO) {
-           // db.taskDao().update_task(task.copy(status = checked))
+
+                val callUpdateCategory = ApiClient.instance?.api?.updateMyTask(task.id!!,task.name,checked)
+
+                callUpdateCategory?.enqueue(object : retrofit2.Callback<ResponseBody?> {
+                    override fun onResponse(call: Call<ResponseBody?>, response: Response<ResponseBody?>) {
+                        //Toast.makeText(this,"Задача обновлена",Toast.LENGTH_SHORT).show()
+                    }
+                    override fun onFailure(call: Call<ResponseBody?>, t: Throwable) {
+                        // Toast.makeText(context,"ОШИБКА! ВКЛЮЧИТЕ ИНТЕРНЕТ!",Toast.LENGTH_SHORT).show()
+                    }
+                })
+            }
         }
 
     }
 
 
-}
+
