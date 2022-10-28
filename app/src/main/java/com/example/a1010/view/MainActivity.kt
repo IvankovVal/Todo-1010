@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.a1010.R
 import com.example.a1010.model.TaskModel
+import com.example.a1010.viewmodel.FilterType
 import com.example.a1010.viewmodel.TaskViewModel
 
 class MainActivity : AppCompatActivity(), RecyclerViewAdapter.OnItemClickListener {
@@ -30,25 +31,29 @@ class MainActivity : AppCompatActivity(), RecyclerViewAdapter.OnItemClickListene
             this, RecyclerView.VERTICAL,false)
         recyclerView.layoutManager = linearLayoutManager
 
-val rb_group:RadioGroup = findViewById(R.id.fild_for_btns)
-        var checkedRbtn:Int = rb_group.checkedRadioButtonId
+        model.tasks.observe(this, Observer{ tasks->
+            // Data bind the recycler view
+            recyclerView.adapter = RecyclerViewAdapter(tasks,this)
+        })
+        val rb_group:RadioGroup = findViewById(R.id.fild_for_btns)
+//        var checkedRbtn:Int = rb_group.checkedRadioButtonId
         rb_group.setOnCheckedChangeListener { group, checkedId ->
             when(checkedId){
-                R.id.btn_all->
+                R.id.btn_all-> model.setFilterType(FilterType.ALL)
                     //Обновить
-                    model.db.observe(this, Observer{ tasks->
-                    // Data bind the recycler view
-                    recyclerView.adapter = RecyclerViewAdapter(tasks,this)})
-                R.id.btn_complete->
+//                    model.db.observe(this, Observer{ tasks->
+//                    // Data bind the recycler view
+//                    recyclerView.adapter = RecyclerViewAdapter(tasks,this)})
+                R.id.btn_complete-> model.setFilterType(FilterType.COMPLETE)
                     //Обновить
-                    model.db.observe(this, Observer{ tasks->
-                    // Data bind the recycler view
-                    recyclerView.adapter = RecyclerViewAdapter(tasks,this) })
-                R.id.btn_active->
+//                    model.db.observe(this, Observer{ tasks->
+//                    // Data bind the recycler view
+//                    recyclerView.adapter = RecyclerViewAdapter(tasks,this) })
+                R.id.btn_active-> model.setFilterType(FilterType.ACTIVE)
                     //Обновить
-                    model.activeTasks.observe(this, Observer{ tasks->
-                    // Data bind the recycler view
-                    recyclerView.adapter = RecyclerViewAdapter(tasks,this)})
+//                    model.activeTasks.observe(this, Observer{ tasks->
+//                    // Data bind the recycler view
+//                    recyclerView.adapter = RecyclerViewAdapter(tasks,this)})
         }}
 
         // Кнопка добавления задания
