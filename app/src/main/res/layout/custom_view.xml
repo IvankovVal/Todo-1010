@@ -54,24 +54,7 @@
             app:layout_constraintBottom_toBottomOf="@id/cbStatus"
 
             />
-        <TextView
-            android:id="@+id/tvStatus"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            tools:text="Статус"
-            android:inputType="text"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_margin="10dp"
-            app:layout_constraintTop_toTopOf="@id/cbStatus"
-            app:layout_constraintBottom_toBottomOf="@id/cbStatus"
-            app:layout_constraintEnd_toEndOf="parent"
 
-
-            />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

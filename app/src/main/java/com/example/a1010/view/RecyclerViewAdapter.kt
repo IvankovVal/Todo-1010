@@ -36,7 +36,6 @@ class RecyclerViewAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.id.text = tasks[position].id.toString()
         holder.name.text = tasks[position].name
-        holder.tvStatus.text = tasks[position].status.toString()
         holder.chekbox.isChecked = if(tasks[position].status == 1) true else false
         if (holder.chekbox.isChecked)holder.listCard.setCardBackgroundColor(Color.GRAY)
         else holder.listCard.setCardBackgroundColor(Color.WHITE)
@@ -44,11 +43,13 @@ class RecyclerViewAdapter(
         holder.chekbox.setOnCheckedChangeListener {buttonView, isChecked ->
             if (isChecked){
             listener.onCheckBoxClick(tasks[position], isChecked = 1)
+         //       model.getAllTasks()
                 holder.name.setTypeface(null, Typeface.ITALIC)
                 holder.listCard.setCardBackgroundColor(Color.GRAY)
         }
            else{
                 listener.onCheckBoxClick(tasks[position], isChecked = 0)
+       //         model.getAllTasks()
                 holder.name.setTypeface(null, Typeface.BOLD)
                 holder.listCard.setCardBackgroundColor(Color.WHITE)
            }
@@ -75,7 +76,6 @@ class RecyclerViewAdapter(
         val id: TextView = itemView.findViewById(R.id.tvId)
         val name: TextView = itemView.findViewById(R.id.tvName)
         val chekbox: CheckBox = itemView.findViewById(R.id.cbStatus)
-        val tvStatus:TextView = itemView.findViewById(R.id.tvStatus)
         val listCard:CardView = itemView.findViewById(R.id.list_card)
 
         init {

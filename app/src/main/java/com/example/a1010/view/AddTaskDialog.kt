@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProviders
 import com.example.a1010.R
@@ -31,9 +32,13 @@ class AddTaskDialog: DialogFragment() {
         }
 
         btn_save.setOnClickListener {
-            model.insert(et_add_task.text.toString(),0 )
-//            model.getAllTasks()
-            dialog?.cancel()
+            if(et_add_task.text.toString() == ""){
+                Toast.makeText(context,"Не верный формат ввода", Toast.LENGTH_LONG)
+            }
+//
+            else{ model.insert(et_add_task.text.toString(),0 )
+            model.getAllTasks()
+            dialog?.cancel()}
 
         }
 

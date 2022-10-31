@@ -26,7 +26,7 @@ class DetailsDialog(var itemPosition: Int) : BottomSheetDialogFragment() {
         model = ViewModelProviders.of(requireActivity()).get(TaskViewModel::class.java)
 
         //положили в переменную конкретный пункт списка с которым будем работать
-        val task = model.db.value!![itemPosition]  ////value!!
+        val task = model.tasks.value!![itemPosition]  ////value!!
 
 
         binding?.etNametaskDetails?.setText("${task.name}")

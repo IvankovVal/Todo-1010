@@ -21,6 +21,7 @@ class TaskViewModel(application: Application): AndroidViewModel(application){
     private val db: MutableLiveData<ArrayList<TaskModel>> by lazy { MutableLiveData<ArrayList<TaskModel>>() }
     private val filterType: MutableLiveData<FilterType> by lazy { MutableLiveData<FilterType>(FilterType.ALL) }
     val tasks: LiveData<ArrayList<TaskModel>> = db
+    var counter:Int? = null
 
     fun setFilterType(to: FilterType) {
         filterType.value = to
@@ -46,6 +47,7 @@ class TaskViewModel(application: Application): AndroidViewModel(application){
 //-------------переменная со списком
                 val loadTasks = response.body()
                 db.postValue(loadTasks)
+                counter = loadTasks!!.size
             }
 
             override fun onFailure(call: Call<ArrayList<TaskModel>>, t: Throwable) {
@@ -55,47 +57,7 @@ class TaskViewModel(application: Application): AndroidViewModel(application){
         })
 
     }
-    //-------------Функция получения списка "В работе"-------------------------------------------
-    fun getActiveTasks() {
 
-        val callActiveTasks = ApiClient.instance?.api?.getMyActiveTask()
-        callActiveTasks?.enqueue(object : Callback<ArrayList<TaskModel>> {
-            override fun onResponse(
-                call: Call<ArrayList<TaskModel>>,
-                response: Response<ArrayList<TaskModel>>
-            ) {
-//-------------переменная со списком
-                val loadTasks = response.body()
-            }
-
-            override fun onFailure(call: Call<ArrayList<TaskModel>>, t: Throwable) {
-                // Toast.makeText(this@MainActivity, "ОШИБКА! ВКЛЮЧИТЕ ИНТЕРНЕТ!", Toast.LENGTH_SHORT).show()
-
-            }
-        })
-
-    }
-    //-------------Функция получения списка "Готово"-------------------------------------------
-    fun getCompliteTasks() {
-
-        val callActiveTasks = ApiClient.instance?.api?.getMyCompleteTask()
-        callActiveTasks?.enqueue(object : Callback<ArrayList<TaskModel>> {
-            override fun onResponse(
-                call: Call<ArrayList<TaskModel>>,
-                response: Response<ArrayList<TaskModel>>
-            ) {
-//-------------переменная со списком
-                val loadTasks = response.body()
-//                completeTasks.postValue(loadTasks)
-            }
-
-            override fun onFailure(call: Call<ArrayList<TaskModel>>, t: Throwable) {
-                // Toast.makeText(this@MainActivity, "ОШИБКА! ВКЛЮЧИТЕ ИНТЕРНЕТ!", Toast.LENGTH_SHORT).show()
-
-            }
-        })
-
-    }
     //-------------Функция добавления задачи-------------------------------------------
     fun insert(name: String?, status: Int){
         viewModelScope.launch(Dispatchers.IO) {
@@ -112,6 +74,7 @@ class TaskViewModel(application: Application): AndroidViewModel(application){
                 }
             })
         }
+
     }
 
     fun delete_task (id:Int){
@@ -155,7 +118,8 @@ class TaskViewModel(application: Application): AndroidViewModel(application){
                     }
                 })
             }
-        }
+
+    }
 
     }
 
