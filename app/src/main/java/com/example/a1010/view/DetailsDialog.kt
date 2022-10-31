@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProviders
 import com.example.a1010.databinding.DetaileDialogBinding
 import com.example.a1010.viewmodel.TaskViewModel
@@ -46,6 +47,10 @@ class DetailsDialog(var itemPosition: Int) : BottomSheetDialogFragment() {
 
         //Кнопка редактирования задачи
         binding?.btnEdit?.setOnClickListener {
+            if(binding?.etNametaskDetails?.text.toString() == "" && binding?.etNametaskDetails?.text!!.length < 3 && binding?.etNametaskDetails?.text!!.length > 50){
+                Toast.makeText(context,"Не верный формат ввода", Toast.LENGTH_LONG)
+            }
+            else{
 
             //в таск кладём id этого task и имя задачи из edittext
             model.update_task(
@@ -55,7 +60,7 @@ class DetailsDialog(var itemPosition: Int) : BottomSheetDialogFragment() {
             )
             model.getAllTasks()
 
-            dialog?.cancel()
+            dialog?.cancel()}
         }
 
 

@@ -49,17 +49,20 @@ class MainActivity : AppCompatActivity(), RecyclerViewAdapter.OnItemClickListene
         rb_group.setOnCheckedChangeListener { group, checkedId ->
             when (checkedId) {
                 R.id.btn_all -> {
+                    model.allTasks()
                     model.setFilterType(FilterType.ALL)
 
-                    all.setText("Все ${conter.}")
+                    all.setText("Все ${model.counterAll.size}")
                 }
                 R.id.btn_complete -> {
+                    model.completeTasks()
                     model.setFilterType(FilterType.COMPLETE)
-                    complete.setText("Готово ${model.counter}")
+                    complete.setText("Готово ${model.counterComplete.size}")
                 }
                 R.id.btn_active -> {
+                    model.activeTasks()
                     model.setFilterType(FilterType.ACTIVE)
-                    active.setText("В работе ${model.counter}")
+                    active.setText("В работе ${model.counterActive.size}")
                 }
             }
         }
