@@ -80,7 +80,7 @@ class TaskViewModel(application: Application): AndroidViewModel(application){
         }
 
     }
-
+    //--------------Удаление задачи------------------------------------------------------
     fun delete_task (id:Int){
         viewModelScope.launch(Dispatchers.IO) {
             val callDeleteTask: Call<ResponseBody?>? = ApiClient.instance?.api?.deleteMyTask(id)
@@ -95,6 +95,7 @@ class TaskViewModel(application: Application): AndroidViewModel(application){
             })
         }
     }
+    //--------------Редактирование задачи------------------------------------------------------
     fun update_task(id: Int, name: String?, status: Int?) {
         viewModelScope.launch(Dispatchers.IO) {
         val callUpdateCategory = ApiClient.instance?.api?.updateMyTask(id,name,status)
@@ -108,6 +109,7 @@ class TaskViewModel(application: Application): AndroidViewModel(application){
             }
         })
     }}
+    //--------------Смена статуса задач------------------------------------------------------
     fun onTaskCheckedChange(task: TaskModel, checked: Int) {
         viewModelScope.launch(Dispatchers.IO) {
 
@@ -122,6 +124,7 @@ class TaskViewModel(application: Application): AndroidViewModel(application){
                     }
                 })
             }}
+    //--------------Удаление выполненных задач------------------------------------------------------
         fun delComTasks(){
             viewModelScope.launch(Dispatchers.IO) {
             val callDeleteComplete: Call<ResponseBody?>? = ApiClient.instance?.api?.delComTask()

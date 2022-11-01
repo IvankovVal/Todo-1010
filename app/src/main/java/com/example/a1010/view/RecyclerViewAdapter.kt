@@ -54,7 +54,7 @@ class RecyclerViewAdapter(
 
 
     //________________________________________________________________________
-    override fun getItemCount(): Int {
+    override  fun getItemCount(): Int {
         return tasks.size
     }
 

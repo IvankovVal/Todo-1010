@@ -2,10 +2,7 @@ package com.example.a1010.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
-import android.widget.RadioButton
-import android.widget.RadioGroup
-import android.widget.Toast
+import android.widget.*
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.viewModelScope
@@ -42,15 +39,13 @@ class MainActivity : AppCompatActivity(), RecyclerViewAdapter.OnItemClickListene
         recyclerView.layoutManager = linearLayoutManager
 
         //Текст радио-кнопок
-        val all: RadioButton = findViewById(R.id.btn_all)
-        val complete: RadioButton = findViewById(R.id.btn_complete)
-        val active: RadioButton = findViewById(R.id.btn_active)
-
-
+        val tvCount: TextView = findViewById(R.id.tv_task_count)
 
         model.tasks.observe(this, Observer { tasks ->
             // Data bind the recycler view
             recyclerView.adapter = RecyclerViewAdapter(tasks, this)
+            tvCount.setText("${model.tasks.value!!.count()}")
+
         })
         val rb_group: RadioGroup = findViewById(R.id.fild_for_btns)
 
@@ -58,20 +53,20 @@ class MainActivity : AppCompatActivity(), RecyclerViewAdapter.OnItemClickListene
             when (checkedId) {
                 R.id.btn_all -> {
                     model.setFilterType(FilterType.ALL)
-                    model.getAllTasks()
-                    all.setText("Все ${model.tasks.value!!.count()}")//model.tasks.value!!.size
+
+                    //all.setText("Все ${model.tasks.value!!.count()}")//model.tasks.value!!.size
                 }
 
                 R.id.btn_complete -> {
                     model.setFilterType(FilterType.COMPLETE)
-                    model.getAllTasks()
-                    complete.setText("Готово ${model.tasks.value!!.count()}")
+
+
                 }
 
                 R.id.btn_active -> {
                     model.setFilterType(FilterType.ACTIVE)
-                    model.getAllTasks()
-                    active.setText("В работе ${model.tasks.value!!.count()}")
+
+
                 }
             }
         }
