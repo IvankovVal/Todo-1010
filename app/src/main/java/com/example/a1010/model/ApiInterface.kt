@@ -2,10 +2,7 @@ package com.example.a1010.model
 
 import okhttp3.ResponseBody
 import retrofit2.Call
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.GET
-import retrofit2.http.POST
+import retrofit2.http.*
 
 interface ApiInterface {
     //Добавление задачи
@@ -45,6 +42,10 @@ interface ApiInterface {
     //Запрос списка "в работе"
     @GET("getActiveTask.php")
     fun getMyActiveTask(): Call<ArrayList<TaskModel>>
+
+    //Удаление всех выполненных deleteCompleteTasks.php
+    @DELETE("deleteCompleteTasks.php")
+    fun delComTask(): Call<ResponseBody?>?
 
 
 

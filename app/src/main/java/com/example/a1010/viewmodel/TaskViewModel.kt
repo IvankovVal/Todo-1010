@@ -1,6 +1,7 @@
 package com.example.a1010.viewmodel
 
 import android.app.Application
+import android.widget.Toast
 import androidx.lifecycle.*
 import com.example.a1010.model.ApiClient
 import com.example.a1010.model.TaskModel
@@ -120,9 +121,30 @@ class TaskViewModel(application: Application): AndroidViewModel(application){
                         // Toast.makeText(context,"ОШИБКА! ВКЛЮЧИТЕ ИНТЕРНЕТ!",Toast.LENGTH_SHORT).show()
                     }
                 })
-            }
+            }}
+        fun delComTasks(){
+            viewModelScope.launch(Dispatchers.IO) {
+            val callDeleteComplete: Call<ResponseBody?>? = ApiClient.instance?.api?.delComTask()
+
+            callDeleteComplete?.enqueue(object : Callback<ResponseBody?> {
+                override fun onResponse(
+                    call: Call<ResponseBody?>, response: Response<ResponseBody?>
+                ) {
+//                    Toast.makeText(this@MainActivity, "Задачи удалены", Toast.LENGTH_LONG).show()
+                }
+
+                override fun onFailure(call: Call<ResponseBody?>, t: Throwable) {
+//                    Toast.makeText(
+//                        this@MainActivity,
+//                        "ОШИБКА! ВКЛЮЧИТЕ ИНТЕРНЕТ!",
+//                        Toast.LENGTH_LONG
+//                    ).show()
+                }
+            })
+        }
 
     }
+}
 //    fun allTasks() {
 //        val callActiveTasks = ApiClient.instance?.api?.getAllMyTask()
 //        callActiveTasks?.enqueue(object : Callback<ArrayList<TaskModel>> {
@@ -180,7 +202,7 @@ class TaskViewModel(application: Application): AndroidViewModel(application){
 //            }
 //        })
 //    }//counterAc
-    }
+
 
 
 

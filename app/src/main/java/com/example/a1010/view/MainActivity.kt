@@ -8,12 +8,20 @@ import android.widget.RadioGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.a1010.R
+import com.example.a1010.model.ApiClient
 import com.example.a1010.model.TaskModel
 import com.example.a1010.viewmodel.FilterType
 import com.example.a1010.viewmodel.TaskViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import okhttp3.ResponseBody
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class MainActivity : AppCompatActivity(), RecyclerViewAdapter.OnItemClickListener {
 
@@ -76,6 +84,11 @@ class MainActivity : AppCompatActivity(), RecyclerViewAdapter.OnItemClickListene
             val add_dialog = AddTaskDialog()
             val manager = supportFragmentManager
             add_dialog.show(manager, "add_dialog")
+        }
+        // Кнопка удаления выполненных заданий
+        val btnDelCom: Button = findViewById(R.id.btn_del_compl)
+        btnDelCom.setOnClickListener {
+            model.delComTasks()
         }
     }
 
