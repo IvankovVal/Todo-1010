@@ -32,8 +32,8 @@ class AddTaskDialog: DialogFragment() {
         }
 
         btn_save.setOnClickListener {
-            if(et_add_task.text.toString() == "" && et_add_task.text.length < 3 && et_add_task.text.length > 50){
-                Toast.makeText(context,"Не верный формат ввода", Toast.LENGTH_LONG)
+            if(et_add_task.text.toString() == "" || et_add_task.text.length < 3 || et_add_task.text.length > 50){
+                Toast.makeText(context,"Не верный формат ввода", Toast.LENGTH_LONG).show()
             }
 //
             else{ model.insert(et_add_task.text.toString(),0 )

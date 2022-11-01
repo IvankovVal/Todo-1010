@@ -48,7 +48,7 @@ class DetailsDialog(var itemPosition: Int) : BottomSheetDialogFragment() {
         //Кнопка редактирования задачи
         binding?.btnEdit?.setOnClickListener {
             if(binding?.etNametaskDetails?.text.toString() == "" && binding?.etNametaskDetails?.text!!.length < 3 && binding?.etNametaskDetails?.text!!.length > 50){
-                Toast.makeText(context,"Не верный формат ввода", Toast.LENGTH_LONG)
+                Toast.makeText(context,"Не верный формат ввода", Toast.LENGTH_LONG).show()
             }
             else{
 
@@ -58,6 +58,7 @@ class DetailsDialog(var itemPosition: Int) : BottomSheetDialogFragment() {
                     binding?.etNametaskDetails?.text.toString(),
                     task.status
             )
+                Toast.makeText(context,"Отредактировано", Toast.LENGTH_LONG).show()
             model.getAllTasks()
 
             dialog?.cancel()}
