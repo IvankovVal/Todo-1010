@@ -49,31 +49,30 @@ class MainActivity : AppCompatActivity(), RecyclerViewAdapter.OnItemClickListene
         rb_group.setOnCheckedChangeListener { group, checkedId ->
             when (checkedId) {
                 R.id.btn_all -> {
-                    model.allTasks()
                     model.setFilterType(FilterType.ALL)
+                    model.getAllTasks()
+                    all.setText("Все ${model.tasks.value!!.count()}")//model.tasks.value!!.size
+                }
 
-                    all.setText("Все ${model.counterAll.size}")
-                }
                 R.id.btn_complete -> {
-                    model.completeTasks()
                     model.setFilterType(FilterType.COMPLETE)
-                    complete.setText("Готово ${model.counterComplete.size}")
+                    model.getAllTasks()
+                    complete.setText("Готово ${model.tasks.value!!.count()}")
                 }
+
                 R.id.btn_active -> {
-                    model.activeTasks()
                     model.setFilterType(FilterType.ACTIVE)
-                    active.setText("В работе ${model.counterActive.size}")
+                    model.getAllTasks()
+                    active.setText("В работе ${model.tasks.value!!.count()}")
                 }
             }
         }
 
-        //  var sizeAll =     //model.tasks.value?:0
-//
-//        all.setText("Все $sizeAll")
 
         // Кнопка добавления задания
         val btn: Button = findViewById(R.id.btn)
         btn.setOnClickListener {
+
             val add_dialog = AddTaskDialog()
             val manager = supportFragmentManager
             add_dialog.show(manager, "add_dialog")

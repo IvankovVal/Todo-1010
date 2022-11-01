@@ -22,9 +22,9 @@ class TaskViewModel(application: Application): AndroidViewModel(application){
     private val filterType: MutableLiveData<FilterType> by lazy { MutableLiveData<FilterType>(FilterType.ALL) }
     val tasks: LiveData<ArrayList<TaskModel>> = db
 
-    lateinit var counterActive:ArrayList<TaskModel>
-    lateinit var counterAll:ArrayList<TaskModel>
-    lateinit var counterComplete:ArrayList<TaskModel>
+//    lateinit var counterActive:ArrayList<TaskModel>
+//    lateinit var counterAll:ArrayList<TaskModel>
+//    lateinit var counterComplete:ArrayList<TaskModel>
 
     fun setFilterType(to: FilterType) {
         filterType.value = to
@@ -33,9 +33,6 @@ class TaskViewModel(application: Application): AndroidViewModel(application){
 
     init {
         getAllTasks()
-        activeTasks()
-        allTasks()
-        completeTasks()
     }
     //-------------Функция получения всех задач-------------------------------------------
     fun getAllTasks() {
@@ -126,63 +123,63 @@ class TaskViewModel(application: Application): AndroidViewModel(application){
             }
 
     }
-    fun allTasks() {
-        val callActiveTasks = ApiClient.instance?.api?.getAllMyTask()
-        callActiveTasks?.enqueue(object : Callback<ArrayList<TaskModel>> {
-            override fun onResponse(
-                call: Call<ArrayList<TaskModel>>,
-                response: Response<ArrayList<TaskModel>>
-            ) {
-//-------------переменная со списком
-                val loadTasks = response.body()
-                if (loadTasks != null) {
-                    counterAll = loadTasks
-                }
-                else counterAll = arrayListOf<TaskModel>()
-            }
-            override fun onFailure(call: Call<ArrayList<TaskModel>>, t: Throwable) {
-                // Toast.makeText(this@MainActivity, "ОШИБКА! ВКЛЮЧИТЕ ИНТЕРНЕТ!", Toast.LENGTH_SHORT).show()
-            }
-        })
-    }
-    fun completeTasks() {
-        val callActiveTasks = ApiClient.instance?.api?.getMyCompleteTask()
-        callActiveTasks?.enqueue(object : Callback<ArrayList<TaskModel>> {
-            override fun onResponse(
-                call: Call<ArrayList<TaskModel>>,
-                response: Response<ArrayList<TaskModel>>
-            ) {
-//-------------переменная со списком
-                val loadTasks = response.body()
-                if (loadTasks != null) {
-                    counterComplete = loadTasks
-                }
-                else counterComplete = arrayListOf<TaskModel>()
-            }
-            override fun onFailure(call: Call<ArrayList<TaskModel>>, t: Throwable) {
-                // Toast.makeText(this@MainActivity, "ОШИБКА! ВКЛЮЧИТЕ ИНТЕРНЕТ!", Toast.LENGTH_SHORT).show()
-            }
-        })
-    }//counterActive
-    fun activeTasks() {
-        val callActiveTasks = ApiClient.instance?.api?.getMyActiveTask()
-        callActiveTasks?.enqueue(object : Callback<ArrayList<TaskModel>> {
-            override fun onResponse(
-                call: Call<ArrayList<TaskModel>>,
-                response: Response<ArrayList<TaskModel>>
-            ) {
-//-------------переменная со списком
-                val loadTasks = response.body()
-                if (loadTasks != null) {
-                    counterActive = loadTasks
-                }
-                else counterActive = arrayListOf<TaskModel>()
-            }
-            override fun onFailure(call: Call<ArrayList<TaskModel>>, t: Throwable) {
-                // Toast.makeText(this@MainActivity, "ОШИБКА! ВКЛЮЧИТЕ ИНТЕРНЕТ!", Toast.LENGTH_SHORT).show()
-            }
-        })
-    }//counterAc
+//    fun allTasks() {
+//        val callActiveTasks = ApiClient.instance?.api?.getAllMyTask()
+//        callActiveTasks?.enqueue(object : Callback<ArrayList<TaskModel>> {
+//            override fun onResponse(
+//                call: Call<ArrayList<TaskModel>>,
+//                response: Response<ArrayList<TaskModel>>
+//            ) {
+////-------------переменная со списком
+//                val loadTasks = response.body()
+//                if (loadTasks != null) {
+//                    counterAll = loadTasks
+//                }
+//                else counterAll = arrayListOf<TaskModel>()
+//            }
+//            override fun onFailure(call: Call<ArrayList<TaskModel>>, t: Throwable) {
+//                // Toast.makeText(this@MainActivity, "ОШИБКА! ВКЛЮЧИТЕ ИНТЕРНЕТ!", Toast.LENGTH_SHORT).show()
+//            }
+//        })
+//    }
+//    fun completeTasks() {
+//        val callActiveTasks = ApiClient.instance?.api?.getMyCompleteTask()
+//        callActiveTasks?.enqueue(object : Callback<ArrayList<TaskModel>> {
+//            override fun onResponse(
+//                call: Call<ArrayList<TaskModel>>,
+//                response: Response<ArrayList<TaskModel>>
+//            ) {
+////-------------переменная со списком
+//                val loadTasks = response.body()
+//                if (loadTasks != null) {
+//                    counterComplete = loadTasks
+//                }
+//                else counterComplete = arrayListOf<TaskModel>()
+//            }
+//            override fun onFailure(call: Call<ArrayList<TaskModel>>, t: Throwable) {
+//                // Toast.makeText(this@MainActivity, "ОШИБКА! ВКЛЮЧИТЕ ИНТЕРНЕТ!", Toast.LENGTH_SHORT).show()
+//            }
+//        })
+//    }//counterActive
+//    fun activeTasks() {
+//        val callActiveTasks = ApiClient.instance?.api?.getMyActiveTask()
+//        callActiveTasks?.enqueue(object : Callback<ArrayList<TaskModel>> {
+//            override fun onResponse(
+//                call: Call<ArrayList<TaskModel>>,
+//                response: Response<ArrayList<TaskModel>>
+//            ) {
+////-------------переменная со списком
+//                val loadTasks = response.body()
+//                if (loadTasks != null) {
+//                    counterActive = loadTasks
+//                }
+//                else counterActive = arrayListOf<TaskModel>()
+//            }
+//            override fun onFailure(call: Call<ArrayList<TaskModel>>, t: Throwable) {
+//                // Toast.makeText(this@MainActivity, "ОШИБКА! ВКЛЮЧИТЕ ИНТЕРНЕТ!", Toast.LENGTH_SHORT).show()
+//            }
+//        })
+//    }//counterAc
     }
 
 

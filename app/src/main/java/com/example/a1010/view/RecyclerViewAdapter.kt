@@ -18,13 +18,10 @@ import com.example.a1010.viewmodel.TaskViewModel
 class RecyclerViewAdapter(
     val tasks: List<TaskModel>,
     private val listener: OnItemClickListener
-    //var itemPosition: Int
 )
     : RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>(){
 
-    private lateinit var model: TaskViewModel
-    //val task = model.allTasks.value!![itemPosition]
-
+    var dubList = tasks
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)
             : ViewHolder {
@@ -43,13 +40,11 @@ class RecyclerViewAdapter(
         holder.chekbox.setOnCheckedChangeListener {buttonView, isChecked ->
             if (isChecked){
             listener.onCheckBoxClick(tasks[position], isChecked = 1)
-         //       model.getAllTasks()
                 holder.name.setTypeface(null, Typeface.ITALIC)
                 holder.listCard.setCardBackgroundColor(Color.GRAY)
         }
            else{
                 listener.onCheckBoxClick(tasks[position], isChecked = 0)
-       //         model.getAllTasks()
                 holder.name.setTypeface(null, Typeface.BOLD)
                 holder.listCard.setCardBackgroundColor(Color.WHITE)
            }
