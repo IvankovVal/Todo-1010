@@ -12,15 +12,16 @@ import androidx.lifecycle.ViewModelProviders
 import com.example.a1010.R
 import com.example.a1010.viewmodel.TaskViewModel
 
-class AddTaskDialog: DialogFragment() {
+class AddTaskDialog : DialogFragment() {
 
     private lateinit var model: TaskViewModel
+    val activity = MainActivity ()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view: View = inflater.inflate(R.layout.add_dialog,container,false)
+        val view: View = inflater.inflate(R.layout.add_dialog, container, false)
         val btn_save: Button = view.findViewById(R.id.btn_save)
         val btn_cancel: Button = view.findViewById(R.id.btn_cancel)
         val et_add_task: EditText = view.findViewById(R.id.et_add_task)
@@ -31,16 +32,19 @@ class AddTaskDialog: DialogFragment() {
             dialog?.cancel()
         }
 
+        //Кнопка сохранения задачи
         btn_save.setOnClickListener {
-            if(et_add_task.text.toString() == "" || et_add_task.text.length < 3 || et_add_task.text.length > 50){
-                Toast.makeText(context,"Не верный формат ввода", Toast.LENGTH_LONG).show()
+            if (et_add_task.text.toString() == "" || et_add_task.text.length < 3 || et_add_task.text.length > 50) {
+                Toast.makeText(context, "Не верный формат ввода", Toast.LENGTH_LONG).show()
             }
-//
-            else{
-                var taskName:String = et_add_task.text.toString().trim()
-                model.insert(taskName,0 )
-            model.getAllTasks()
-            dialog?.cancel()}
+
+            else {
+                var taskName: String = et_add_task.text.toString().trim()
+                model.insert(taskName, 0)
+                model.getAllTasks()
+             //   activity.refresh()
+                dialog?.cancel()
+            }
 
         }
 

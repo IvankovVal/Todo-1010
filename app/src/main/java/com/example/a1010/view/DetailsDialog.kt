@@ -15,6 +15,7 @@ class DetailsDialog(var itemPosition: Int) : BottomSheetDialogFragment() {
     private var binding: DetaileDialogBinding? = null
     private lateinit var model: TaskViewModel
 
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -42,26 +43,28 @@ class DetailsDialog(var itemPosition: Int) : BottomSheetDialogFragment() {
 
             model.delete_task(task.id!!.toInt())
             model.getAllTasks()
+
+
             dialog?.cancel()
         }
 
         //Кнопка редактирования задачи
         binding?.btnEdit?.setOnClickListener {
-            if(binding?.etNametaskDetails?.text.toString() == "" && binding?.etNametaskDetails?.text!!.length < 3 && binding?.etNametaskDetails?.text!!.length > 50){
-                Toast.makeText(context,"Не верный формат ввода", Toast.LENGTH_LONG).show()
-            }
-            else{
+            if (binding?.etNametaskDetails?.text.toString() == "" && binding?.etNametaskDetails?.text!!.length < 3 && binding?.etNametaskDetails?.text!!.length > 50) {
+                Toast.makeText(context, "Не верный формат ввода", Toast.LENGTH_LONG).show()
+            } else {
 
-            //в таск кладём id этого task и имя задачи из edittext
-            model.update_task(
-                task.id!!,
+                //в таск кладём id этого task и имя задачи из edittext
+                model.update_task(
+                    task.id!!,
                     binding?.etNametaskDetails?.text.toString(),
                     task.status
-            )
-                Toast.makeText(context,"Отредактировано", Toast.LENGTH_LONG).show()
-            model.getAllTasks()
+                )
+                Toast.makeText(context, "Отредактировано", Toast.LENGTH_LONG).show()
+                model.getAllTasks()
 
-            dialog?.cancel()}
+                dialog?.cancel()
+            }
         }
 
 

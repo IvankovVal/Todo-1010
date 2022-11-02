@@ -44,7 +44,7 @@
         android:id="@+id/tv_task_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Количество задач:0"
+        android:text="Количество задач"
         android:textColor="@color/black"
         android:textSize="20dp"
         android:textStyle="bold"
@@ -69,7 +69,7 @@
         tools:listitem="@layout/custom_view"/>
     <Button
         android:text="Все"
-        android:layout_width="130dp"
+        android:layout_width="125dp"
         android:layout_height="wrap_content"
         android:id="@+id/btn_set_all_check"
         android:layout_marginTop="8dp"
@@ -95,7 +95,7 @@
         android:layout_marginVertical="8dp"/>
     <Button
         android:text="Готово"
-        android:layout_width="130dp"
+        android:layout_width="125dp"
         android:layout_height="wrap_content"
         android:id="@+id/btn_del_compl"
         android:layout_marginTop="8dp"

@@ -23,6 +23,8 @@ import retrofit2.Response
 class MainActivity : AppCompatActivity(), RecyclerViewAdapter.OnItemClickListener {
 
     private lateinit var model: TaskViewModel
+    private lateinit var recyclerView: RecyclerView
+   // val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,7 +34,8 @@ class MainActivity : AppCompatActivity(), RecyclerViewAdapter.OnItemClickListene
         model = ViewModelProviders.of(this).get(TaskViewModel::class.java)
 
         // Specify layout for recycler view
-        val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
+        recyclerView = findViewById(R.id.recyclerView)
+
         val linearLayoutManager = LinearLayoutManager(
             this, RecyclerView.VERTICAL, false
         )
@@ -53,25 +56,15 @@ class MainActivity : AppCompatActivity(), RecyclerViewAdapter.OnItemClickListene
             when (checkedId) {
                 R.id.btn_all -> {
                     model.setFilterType(FilterType.ALL)
-
-                    //all.setText("Все ${model.tasks.value!!.count()}")//model.tasks.value!!.size
                 }
-
                 R.id.btn_complete -> {
                     model.setFilterType(FilterType.COMPLETE)
-
-
                 }
-
                 R.id.btn_active -> {
                     model.setFilterType(FilterType.ACTIVE)
-
-
                 }
             }
         }
-
-
         // Кнопка добавления задания
         val btn: ImageButton = findViewById(R.id.btn)
         btn.setOnClickListener {
@@ -92,7 +85,9 @@ class MainActivity : AppCompatActivity(), RecyclerViewAdapter.OnItemClickListene
 
         model.setAllComplete()
 
+
     }
+
 
 }
 
@@ -106,4 +101,8 @@ class MainActivity : AppCompatActivity(), RecyclerViewAdapter.OnItemClickListene
     override fun onCheckBoxClick(task: TaskModel, isChecked: Int) {
         model.onTaskCheckedChange(task, isChecked)
     }
+//    override fun refresh() {
+//        recyclerView.adapter!!.notifyDataSetChanged()
+//    }
+
 }
