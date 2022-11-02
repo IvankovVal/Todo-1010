@@ -36,7 +36,9 @@ class AddTaskDialog: DialogFragment() {
                 Toast.makeText(context,"Не верный формат ввода", Toast.LENGTH_LONG).show()
             }
 //
-            else{ model.insert(et_add_task.text.toString(),0 )
+            else{
+                var taskName:String = et_add_task.text.toString().trim()
+                model.insert(taskName,0 )
             model.getAllTasks()
             dialog?.cancel()}
 

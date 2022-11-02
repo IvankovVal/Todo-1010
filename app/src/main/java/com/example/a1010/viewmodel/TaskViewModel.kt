@@ -95,6 +95,20 @@ class TaskViewModel(application: Application): AndroidViewModel(application){
             })
         }
     }
+    //--------------Все готовы------------------------------------------------------
+    fun setAllComplete() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val callUpdateCategory = ApiClient.instance?.api?.setAllComplete()
+
+            callUpdateCategory?.enqueue(object : retrofit2.Callback<ResponseBody?> {
+                override fun onResponse(call: Call<ResponseBody?>, response: Response<ResponseBody?>) {
+                    //Toast.makeText(this,"Задача обновлена",Toast.LENGTH_SHORT).show()
+                }
+                override fun onFailure(call: Call<ResponseBody?>, t: Throwable) {
+                    // Toast.makeText(context,"ОШИБКА! ВКЛЮЧИТЕ ИНТЕРНЕТ!",Toast.LENGTH_SHORT).show()
+                }
+            })
+        }}
     //--------------Редактирование задачи------------------------------------------------------
     fun update_task(id: Int, name: String?, status: Int?) {
         viewModelScope.launch(Dispatchers.IO) {

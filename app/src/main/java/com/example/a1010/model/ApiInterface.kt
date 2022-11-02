@@ -47,6 +47,10 @@ interface ApiInterface {
     @DELETE("deleteCompleteTasks.php")
     fun delComTask(): Call<ResponseBody?>?
 
+    //Удаление всех выполненных deleteCompleteTasks.php
+    @POST("setAllComplete.php")
+    fun setAllComplete(): Call<ResponseBody?>?
+
 
 
 }
