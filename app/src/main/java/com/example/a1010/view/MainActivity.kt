@@ -1,5 +1,6 @@
 package com.example.a1010.view
 
+import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.*
@@ -23,8 +24,7 @@ import retrofit2.Response
 class MainActivity : AppCompatActivity(), RecyclerViewAdapter.OnItemClickListener {
 
     private lateinit var model: TaskViewModel
-    private lateinit var recyclerView: RecyclerView
-   // val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
+    lateinit var recyclerView: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +41,7 @@ class MainActivity : AppCompatActivity(), RecyclerViewAdapter.OnItemClickListene
         )
         recyclerView.layoutManager = linearLayoutManager
 
+
         //Текст радио-кнопок
         val tvCount: TextView = findViewById(R.id.tv_task_count)
 
@@ -49,8 +50,13 @@ class MainActivity : AppCompatActivity(), RecyclerViewAdapter.OnItemClickListene
             recyclerView.adapter = RecyclerViewAdapter(tasks, this)
             tvCount.setText("${model.tasks.value!!.count()}")
 
+
         })
         val rb_group: RadioGroup = findViewById(R.id.fild_for_btns)
+        fun changeToAll (){
+            rb_group.clearCheck()
+            rb_group.check(R.id.btn_all)
+        }
 
         rb_group.setOnCheckedChangeListener { group, checkedId ->
             when (checkedId) {
@@ -79,30 +85,30 @@ class MainActivity : AppCompatActivity(), RecyclerViewAdapter.OnItemClickListene
             model.delComTasks()
         }
 
-    // Кнопка "Все выполнены"
-    val btnSetAllCheck: Button = findViewById(R.id.btn_set_all_check)
-    btnSetAllCheck.setOnClickListener {
+        // Кнопка "Все выполнены"
+        val btnSetAllCheck: Button = findViewById(R.id.btn_set_all_check)
+        btnSetAllCheck.setOnClickListener {
 
-        model.setAllComplete()
+            model.setAllComplete()
 
 
+        }
     }
-
-
-}
-
     override fun onItemClick(position: Int) {
         Toast.makeText(this, "Пункт $position нажат", Toast.LENGTH_LONG).show()
         val ditaile_dialog = DetailsDialog(position)
         val manager = supportFragmentManager
         ditaile_dialog.show(manager, "add_dialog")
     }
-
     override fun onCheckBoxClick(task: TaskModel, isChecked: Int) {
         model.onTaskCheckedChange(task, isChecked)
     }
-//    override fun refresh() {
-//        recyclerView.adapter!!.notifyDataSetChanged()
-//    }
-
+    override fun refresh() {
+        model.tasks.value!!.clear()
+        model.getAllTasks()
+}
+    fun changeToAll (rb_group:RadioGroup){
+        rb_group.clearCheck()
+        rb_group.check(R.id.btn_all)
+    }
 }

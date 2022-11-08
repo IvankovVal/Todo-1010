@@ -6,7 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProviders
+import com.example.a1010.R
 import com.example.a1010.databinding.DetaileDialogBinding
+import com.example.a1010.viewmodel.FilterType
 import com.example.a1010.viewmodel.TaskViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
@@ -43,6 +45,8 @@ class DetailsDialog(var itemPosition: Int) : BottomSheetDialogFragment() {
 
             model.delete_task(task.id!!.toInt())
             model.getAllTasks()
+            model.setFilterType(to = FilterType.ALL)
+            (context as MainActivity).changeToAll((context as MainActivity).findViewById(R.id.fild_for_btns))
 
 
             dialog?.cancel()
@@ -62,6 +66,8 @@ class DetailsDialog(var itemPosition: Int) : BottomSheetDialogFragment() {
                 )
                 Toast.makeText(context, "Отредактировано", Toast.LENGTH_LONG).show()
                 model.getAllTasks()
+                model.setFilterType(to = FilterType.ALL)
+                (context as MainActivity).changeToAll((context as MainActivity).findViewById(R.id.fild_for_btns))
 
                 dialog?.cancel()
             }

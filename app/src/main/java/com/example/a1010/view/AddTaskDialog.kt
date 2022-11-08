@@ -10,12 +10,13 @@ import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProviders
 import com.example.a1010.R
+import com.example.a1010.viewmodel.FilterType
 import com.example.a1010.viewmodel.TaskViewModel
 
 class AddTaskDialog : DialogFragment() {
 
     private lateinit var model: TaskViewModel
-    val activity = MainActivity ()
+  //  val activity = MainActivity()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -41,8 +42,11 @@ class AddTaskDialog : DialogFragment() {
             else {
                 var taskName: String = et_add_task.text.toString().trim()
                 model.insert(taskName, 0)
-                model.getAllTasks()
-             //   activity.refresh()
+                model.setFilterType(to = FilterType.ALL)
+                (context as MainActivity).changeToAll((context as MainActivity).findViewById(R.id.fild_for_btns))
+
+
+
                 dialog?.cancel()
             }
 

@@ -5,6 +5,7 @@ import android.widget.Toast
 import androidx.lifecycle.*
 import com.example.a1010.model.ApiClient
 import com.example.a1010.model.TaskModel
+import com.example.a1010.view.RecyclerViewAdapter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import okhttp3.ResponseBody
@@ -22,6 +23,7 @@ class TaskViewModel(application: Application): AndroidViewModel(application){
    val db: MutableLiveData<ArrayList<TaskModel>> by lazy { MutableLiveData<ArrayList<TaskModel>>() }
     private val filterType: MutableLiveData<FilterType> by lazy { MutableLiveData<FilterType>(FilterType.ALL) }
     val tasks: LiveData<ArrayList<TaskModel>> = db
+
 
 //    lateinit var counterActive:ArrayList<TaskModel>
 //    lateinit var counterAll:ArrayList<TaskModel>

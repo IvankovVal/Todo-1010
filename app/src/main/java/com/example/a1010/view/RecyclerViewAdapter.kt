@@ -88,6 +88,6 @@ class RecyclerViewAdapter(
     interface OnItemClickListener{
         fun onItemClick(position: Int)
         fun onCheckBoxClick(task: TaskModel,isChecked:Int)
-//        fun refresh()
+       fun refresh()
     }
 }
