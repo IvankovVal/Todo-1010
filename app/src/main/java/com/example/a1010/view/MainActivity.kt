@@ -53,10 +53,7 @@ class MainActivity : AppCompatActivity(), RecyclerViewAdapter.OnItemClickListene
 
         })
         val rb_group: RadioGroup = findViewById(R.id.fild_for_btns)
-        fun changeToAll (){
-            rb_group.clearCheck()
-            rb_group.check(R.id.btn_all)
-        }
+
 
         rb_group.setOnCheckedChangeListener { group, checkedId ->
             when (checkedId) {
@@ -83,13 +80,18 @@ class MainActivity : AppCompatActivity(), RecyclerViewAdapter.OnItemClickListene
         val btnDelCom: Button = findViewById(R.id.btn_del_compl)
         btnDelCom.setOnClickListener {
             model.delComTasks()
+//            model.setFilterType(to = FilterType.ALL)
+            changeToAll(rb_group)
+
         }
 
-        // Кнопка "Все выполнены"
+        // Кнопка "Все выполнены" task
         val btnSetAllCheck: Button = findViewById(R.id.btn_set_all_check)
         btnSetAllCheck.setOnClickListener {
 
             model.setAllComplete()
+            model.setFilterType(to = FilterType.ALL)
+            changeToAll(rb_group)
 
 
         }
@@ -103,12 +105,10 @@ class MainActivity : AppCompatActivity(), RecyclerViewAdapter.OnItemClickListene
     override fun onCheckBoxClick(task: TaskModel, isChecked: Int) {
         model.onTaskCheckedChange(task, isChecked)
     }
-    override fun refresh() {
-        model.tasks.value!!.clear()
-        model.getAllTasks()
-}
+
     fun changeToAll (rb_group:RadioGroup){
         rb_group.clearCheck()
         rb_group.check(R.id.btn_all)
     }
+
 }

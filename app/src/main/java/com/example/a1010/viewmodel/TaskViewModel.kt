@@ -52,8 +52,8 @@ class TaskViewModel(application: Application): AndroidViewModel(application){
             ) {
 //-------------переменная со списком
                 val loadTasks = response.body()
+//                db.value = loadTasks
                 db.postValue(loadTasks)
-
             }
 
             override fun onFailure(call: Call<ArrayList<TaskModel>>, t: Throwable) {
@@ -64,13 +64,21 @@ class TaskViewModel(application: Application): AndroidViewModel(application){
 
     }
 
+    fun insertWithNative(name: String?, status: Int) {
+        // create HTTPUrlConnection
+        // parse TaskModel into json string
+        // configure HTTPUrlConnection to send data
+        // parse output???
+        // update UI
+    }
+
     //-------------Функция добавления задачи-------------------------------------------
     fun insert(name: String?, status: Int){
         viewModelScope.launch(Dispatchers.IO) {
             val callInsertTask: Call<ResponseBody?>? = ApiClient.instance?.api?.insertMyTask(name, status)
             callInsertTask?.enqueue(object : Callback<ResponseBody?> {
                 override fun onResponse(call: Call<ResponseBody?>, response: Response<ResponseBody?>) {
-
+                    getAllTasks()
                     //Toast.makeText(this, "Задача добавлена", Toast.LENGTH_SHORT).show()
                 }
 
@@ -90,6 +98,7 @@ class TaskViewModel(application: Application): AndroidViewModel(application){
             callDeleteTask?.enqueue(object : Callback<ResponseBody?> {
                 override fun onResponse(call: Call<ResponseBody?>, response: Response<ResponseBody?>) {
                     //Toast.makeText(context,"Задача удалена",Toast.LENGTH_SHORT).show()
+                    getAllTasks()
                 }
                 override fun onFailure(call: Call<ResponseBody?>, t: Throwable) {
                     // Toast.makeText( context,"ОШИБКА! ВКЛЮЧИТЕ ИНТЕРНЕТ!",Toast.LENGTH_SHORT).show()
@@ -105,6 +114,7 @@ class TaskViewModel(application: Application): AndroidViewModel(application){
             callUpdateCategory?.enqueue(object : retrofit2.Callback<ResponseBody?> {
                 override fun onResponse(call: Call<ResponseBody?>, response: Response<ResponseBody?>) {
                     //Toast.makeText(this,"Задача обновлена",Toast.LENGTH_SHORT).show()
+                    getAllTasks()
                 }
                 override fun onFailure(call: Call<ResponseBody?>, t: Throwable) {
                     // Toast.makeText(context,"ОШИБКА! ВКЛЮЧИТЕ ИНТЕРНЕТ!",Toast.LENGTH_SHORT).show()
@@ -119,6 +129,7 @@ class TaskViewModel(application: Application): AndroidViewModel(application){
         callUpdateCategory?.enqueue(object : retrofit2.Callback<ResponseBody?> {
             override fun onResponse(call: Call<ResponseBody?>, response: Response<ResponseBody?>) {
                 //Toast.makeText(this,"Задача обновлена",Toast.LENGTH_SHORT).show()
+                getAllTasks()
             }
             override fun onFailure(call: Call<ResponseBody?>, t: Throwable) {
                // Toast.makeText(context,"ОШИБКА! ВКЛЮЧИТЕ ИНТЕРНЕТ!",Toast.LENGTH_SHORT).show()
@@ -134,6 +145,7 @@ class TaskViewModel(application: Application): AndroidViewModel(application){
                 callUpdateCategory?.enqueue(object : retrofit2.Callback<ResponseBody?> {
                     override fun onResponse(call: Call<ResponseBody?>, response: Response<ResponseBody?>) {
                         //Toast.makeText(this,"Задача обновлена",Toast.LENGTH_SHORT).show()
+                        getAllTasks()
                     }
                     override fun onFailure(call: Call<ResponseBody?>, t: Throwable) {
                         // Toast.makeText(context,"ОШИБКА! ВКЛЮЧИТЕ ИНТЕРНЕТ!",Toast.LENGTH_SHORT).show()
@@ -149,6 +161,7 @@ class TaskViewModel(application: Application): AndroidViewModel(application){
                 override fun onResponse(
                     call: Call<ResponseBody?>, response: Response<ResponseBody?>
                 ) {
+                    getAllTasks()
 //                    Toast.makeText(this@MainActivity, "Задачи удалены", Toast.LENGTH_LONG).show()
                 }
 

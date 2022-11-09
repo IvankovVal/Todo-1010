@@ -21,8 +21,6 @@ class RecyclerViewAdapter(
 )
     : RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>(){
 
-    var dubList = tasks
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)
             : ViewHolder {
         val v: View = LayoutInflater.from(parent.context)
@@ -42,11 +40,14 @@ class RecyclerViewAdapter(
             listener.onCheckBoxClick(tasks[position], isChecked = 1)
                 holder.name.setTypeface(null, Typeface.ITALIC)
                 holder.listCard.setCardBackgroundColor(Color.GRAY)
+//                notifyDataSetChanged()
+
         }
            else{
                 listener.onCheckBoxClick(tasks[position], isChecked = 0)
                 holder.name.setTypeface(null, Typeface.BOLD)
                 holder.listCard.setCardBackgroundColor(Color.WHITE)
+//                notifyDataSetChanged()
            }
         }}
 
@@ -88,6 +89,5 @@ class RecyclerViewAdapter(
     interface OnItemClickListener{
         fun onItemClick(position: Int)
         fun onCheckBoxClick(task: TaskModel,isChecked:Int)
-       fun refresh()
     }
 }
