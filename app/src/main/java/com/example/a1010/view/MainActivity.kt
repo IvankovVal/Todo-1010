@@ -10,6 +10,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.a1010.R
+import com.example.a1010.databinding.ActivityMainBinding
 import com.example.a1010.model.ApiClient
 import com.example.a1010.model.TaskModel
 import com.example.a1010.viewmodel.FilterType
@@ -23,12 +24,17 @@ import retrofit2.Response
 
 class MainActivity : AppCompatActivity(), RecyclerViewAdapter.OnItemClickListener {
 
+    private lateinit var binding: ActivityMainBinding
     private lateinit var model: TaskViewModel
     lateinit var recyclerView: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
+
+        binding.btnCat.setOnClickListener { suspend { feedTheCat () } }
 
         // Get the view model
         model = ViewModelProviders.of(this).get(TaskViewModel::class.java)
@@ -96,6 +102,11 @@ class MainActivity : AppCompatActivity(), RecyclerViewAdapter.OnItemClickListene
 
         }
     }
+
+    private suspend fun feedTheCat() {
+        model.feedMyCat( )
+    }
+
     override fun onItemClick(position: Int) {
         Toast.makeText(this, "Пункт $position нажат", Toast.LENGTH_LONG).show()
         val ditaile_dialog = DetailsDialog(position)

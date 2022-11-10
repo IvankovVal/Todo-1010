@@ -1,17 +1,27 @@
 package com.example.a1010.viewmodel
 
 import android.app.Application
+import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.*
 import com.example.a1010.model.ApiClient
 import com.example.a1010.model.TaskModel
 import com.example.a1010.view.RecyclerViewAdapter
+import com.google.gson.GsonBuilder
+import com.google.gson.JsonParser
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import okhttp3.ResponseBody
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.OutputStreamWriter
+import java.net.HttpURLConnection
+import java.net.URL
+import javax.net.ssl.HttpsURLConnection
 
 enum class FilterType {
     ALL,
@@ -64,13 +74,7 @@ class TaskViewModel(application: Application): AndroidViewModel(application){
 
     }
 
-    fun insertWithNative(name: String?, status: Int) {
-        // create HTTPUrlConnection
-        // parse TaskModel into json string
-        // configure HTTPUrlConnection to send data
-        // parse output???
-        // update UI
-    }
+
 
     //-------------Функция добавления задачи-------------------------------------------
     fun insert(name: String?, status: Int){
@@ -176,64 +180,91 @@ class TaskViewModel(application: Application): AndroidViewModel(application){
         }
 
     }
-}
-//    fun allTasks() {
-//        val callActiveTasks = ApiClient.instance?.api?.getAllMyTask()
-//        callActiveTasks?.enqueue(object : Callback<ArrayList<TaskModel>> {
-//            override fun onResponse(
-//                call: Call<ArrayList<TaskModel>>,
-//                response: Response<ArrayList<TaskModel>>
-//            ) {
-////-------------переменная со списком
-//                val loadTasks = response.body()
-//                if (loadTasks != null) {
-//                    counterAll = loadTasks
-//                }
-//                else counterAll = arrayListOf<TaskModel>()
-//            }
-//            override fun onFailure(call: Call<ArrayList<TaskModel>>, t: Throwable) {
-//                // Toast.makeText(this@MainActivity, "ОШИБКА! ВКЛЮЧИТЕ ИНТЕРНЕТ!", Toast.LENGTH_SHORT).show()
-//            }
-//        })
-//    }
-//    fun completeTasks() {
-//        val callActiveTasks = ApiClient.instance?.api?.getMyCompleteTask()
-//        callActiveTasks?.enqueue(object : Callback<ArrayList<TaskModel>> {
-//            override fun onResponse(
-//                call: Call<ArrayList<TaskModel>>,
-//                response: Response<ArrayList<TaskModel>>
-//            ) {
-////-------------переменная со списком
-//                val loadTasks = response.body()
-//                if (loadTasks != null) {
-//                    counterComplete = loadTasks
-//                }
-//                else counterComplete = arrayListOf<TaskModel>()
-//            }
-//            override fun onFailure(call: Call<ArrayList<TaskModel>>, t: Throwable) {
-//                // Toast.makeText(this@MainActivity, "ОШИБКА! ВКЛЮЧИТЕ ИНТЕРНЕТ!", Toast.LENGTH_SHORT).show()
-//            }
-//        })
-//    }//counterActive
-//    fun activeTasks() {
-//        val callActiveTasks = ApiClient.instance?.api?.getMyActiveTask()
-//        callActiveTasks?.enqueue(object : Callback<ArrayList<TaskModel>> {
-//            override fun onResponse(
-//                call: Call<ArrayList<TaskModel>>,
-//                response: Response<ArrayList<TaskModel>>
-//            ) {
-////-------------переменная со списком
-//                val loadTasks = response.body()
-//                if (loadTasks != null) {
-//                    counterActive = loadTasks
-//                }
-//                else counterActive = arrayListOf<TaskModel>()
-//            }
-//            override fun onFailure(call: Call<ArrayList<TaskModel>>, t: Throwable) {
-//                // Toast.makeText(this@MainActivity, "ОШИБКА! ВКЛЮЧИТЕ ИНТЕРНЕТ!", Toast.LENGTH_SHORT).show()
-//            }
-//        })
-//    }//counterAc
+    fun insertWithNative(name: String?, status: Int) {
+        // create HTTPUrlConnection
+        // parse TaskModel into json string
+        // configure HTTPUrlConnection to send data
+        // parse output???
+        // update UI
+    }
+    suspend fun feedMyCat() {
+        TODO("Not yet implemented")
+        //Запостить на сервер задачу "Покормить кота"
+        postFeedCat()
+        //Получить задачу
+       // getMethod()
+        //Распарсить
+        //Добавить в список задач
+    }
+//https://api.beget.com/api/mysql/getList?login=bellat3u&passwd=LY3knSLm&output_format=json  -  запросы к таблице (здесь просим лист - метод getList)
+    private suspend fun postFeedCat() {
+        // Create JSON using JSONObject
+        val jsonObject = JSONObject()
+        jsonObject.put("id", "some id")
+        jsonObject.put("name", "Покорми кота")
+        jsonObject.put("status", "0")
+        // Convert JSONObject to String
+        val jsonObjectString = jsonObject.toString()
+
+        val url = URL("http://bellat3u.beget.tech/insertTask.php")
+        val httpURLConnection = url.openConnection() as HttpURLConnection
+        httpURLConnection.requestMethod = "POST"
+        httpURLConnection.setRequestProperty("Content-Type", "application/json") // The format of the content we're sending to the server
+        httpURLConnection.setRequestProperty("Accept", "application/json") // The format of response we want to get from the server
+        httpURLConnection.doInput = true
+        httpURLConnection.doOutput = true
+
+            // Send the JSON we created
+        val outputStreamWriter = OutputStreamWriter(httpURLConnection.outputStream)
+        outputStreamWriter.write(jsonObjectString)
+        outputStreamWriter.flush()
+
+        // Check if the connection is successful
+        val responseCode = httpURLConnection.responseCode
+        if (responseCode == HttpURLConnection.HTTP_OK) {
+            val response = httpURLConnection.inputStream.bufferedReader()
+                .use { it.readText() }  // defaults to UTF-8
+            withContext(Dispatchers.IO) {
+
+                // Convert raw JSON to pretty JSON using GSON library
+                val gson = GsonBuilder().setPrettyPrinting().create()
+                val myJson = gson.toJson(JsonParser.parseString(response))
+                Log.d("My Printed JSON :", myJson)
+
+            }
+        } else {
+            Log.e("HTTPURLCONNECTION_ERROR", responseCode.toString())
+        }
+    }
+    fun getMethod() {
+        GlobalScope.launch(Dispatchers.IO) {
+            val url = URL("http://bellat3u.beget.tech")
+            val httpURLConnection = url.openConnection() as HttpURLConnection
+            httpURLConnection.setRequestProperty("Accept", "application/json") // The format of response we want to get from the server
+            httpURLConnection.requestMethod = "GET"
+            httpURLConnection.doInput = true
+            httpURLConnection.doOutput = false
+            // Check if the connection is successful
+            val responseCode = httpURLConnection.responseCode
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                val response = httpURLConnection.inputStream.bufferedReader()
+                    .use { it.readText() }  // defaults to UTF-8
+                withContext(Dispatchers.Main) {
+
+                    // Convert raw JSON to pretty JSON using GSON library
+                    val gson = GsonBuilder().setPrettyPrinting().create()
+                    val myJson = gson.toJson(JsonParser.parseString(response))
+                    Log.d("My Printed JSON :", myJson)
+
+                }
+            } else {
+                Log.e("HTTPURLCONNECTION_ERROR", responseCode.toString())
+            }
+        }
+    }
+    }
+
+
 
 
 
