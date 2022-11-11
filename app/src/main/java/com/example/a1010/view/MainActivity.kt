@@ -65,7 +65,7 @@ class MainActivity : AppCompatActivity(), RecyclerViewAdapter.OnItemClickListene
             }
         }
         // Кнопка добавления задания
-        val btn: ImageButton = findViewById(R.id.btn)
+        val btn: Button = findViewById(R.id.btn)
         btn.setOnClickListener {
 
             val add_dialog = AddTaskDialog()
