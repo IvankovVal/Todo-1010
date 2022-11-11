@@ -5,12 +5,21 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import org.json.JSONObject
 
 class TaskModel (
-    @SerializedName("id") @Expose
-    var id: Int? = null,
-    @SerializedName("name") @Expose
+
     var name: String? = null,
-    @SerializedName("status") @Expose
-    var status: Int? = null
-)
+    var status: Boolean = false,
+    var id: Int? = null,
+
+){
+    companion object {
+        fun parseFromJSONObject(json: JSONObject): TaskModel {
+            val text = json.getString("text")
+            val status = json.getBoolean("status")
+            val id = json.getInt("id")
+            return TaskModel(text, status, id)
+        }
+    }
+}

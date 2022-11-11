@@ -1,7 +1,6 @@
 package com.example.a1010.view
 
 
-import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.Typeface
 import android.view.LayoutInflater
@@ -13,7 +12,6 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.a1010.R
 import com.example.a1010.model.TaskModel
-import com.example.a1010.viewmodel.TaskViewModel
 
 class RecyclerViewAdapter(
     val tasks: List<TaskModel>,
@@ -31,20 +29,20 @@ class RecyclerViewAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.id.text = tasks[position].id.toString()
         holder.name.text = tasks[position].name
-        holder.chekbox.isChecked = if(tasks[position].status == 1) true else false
+        holder.chekbox.isChecked = if(tasks[position].status == true) true else false
         if (holder.chekbox.isChecked)holder.listCard.setCardBackgroundColor(Color.GRAY)
         else holder.listCard.setCardBackgroundColor(Color.WHITE)
 
         holder.chekbox.setOnCheckedChangeListener {buttonView, isChecked ->
             if (isChecked){
-            listener.onCheckBoxClick(tasks[position], isChecked = 1)
+            listener.onCheckBoxClick(tasks[position].id, isChecked = true)
                 holder.name.setTypeface(null, Typeface.ITALIC)
                 holder.listCard.setCardBackgroundColor(Color.GRAY)
 //                notifyDataSetChanged()
 
         }
            else{
-                listener.onCheckBoxClick(tasks[position], isChecked = 0)
+                listener.onCheckBoxClick(tasks[position].id, isChecked = false)
                 holder.name.setTypeface(null, Typeface.BOLD)
                 holder.listCard.setCardBackgroundColor(Color.WHITE)
 //                notifyDataSetChanged()
@@ -88,6 +86,6 @@ class RecyclerViewAdapter(
     }
     interface OnItemClickListener{
         fun onItemClick(position: Int)
-        fun onCheckBoxClick(task: TaskModel,isChecked:Int)
+        fun onCheckBoxClick(id: Int?, isChecked: Boolean)
     }
 }

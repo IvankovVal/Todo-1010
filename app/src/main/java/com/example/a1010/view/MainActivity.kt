@@ -1,26 +1,15 @@
 package com.example.a1010.view
 
-import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.*
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.a1010.R
 import com.example.a1010.databinding.ActivityMainBinding
-import com.example.a1010.model.ApiClient
-import com.example.a1010.model.TaskModel
-import com.example.a1010.viewmodel.FilterType
 import com.example.a1010.viewmodel.TaskViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import okhttp3.ResponseBody
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class MainActivity : AppCompatActivity(), RecyclerViewAdapter.OnItemClickListener {
 
@@ -34,7 +23,6 @@ class MainActivity : AppCompatActivity(), RecyclerViewAdapter.OnItemClickListene
         val view = binding.root
         setContentView(view)
 
-        binding.btnCat.setOnClickListener { suspend { feedTheCat () } }
 
         // Get the view model
         model = ViewModelProviders.of(this).get(TaskViewModel::class.java)
@@ -64,13 +52,15 @@ class MainActivity : AppCompatActivity(), RecyclerViewAdapter.OnItemClickListene
         rb_group.setOnCheckedChangeListener { group, checkedId ->
             when (checkedId) {
                 R.id.btn_all -> {
-                    model.setFilterType(FilterType.ALL)
+                    model.tasks
                 }
                 R.id.btn_complete -> {
-                    model.setFilterType(FilterType.COMPLETE)
+                    TODO()
+                    // model.tasks.value!!.filter { it.status = true }
                 }
                 R.id.btn_active -> {
-                    model.setFilterType(FilterType.ACTIVE)
+                    TODO()
+                    // model.tasks.value!!.filter { it.status = false  }
                 }
             }
         }
@@ -85,27 +75,15 @@ class MainActivity : AppCompatActivity(), RecyclerViewAdapter.OnItemClickListene
         // Кнопка удаления выполненных заданий
         val btnDelCom: Button = findViewById(R.id.btn_del_compl)
         btnDelCom.setOnClickListener {
+
             model.delComTasks()
 //            model.setFilterType(to = FilterType.ALL)
             changeToAll(rb_group)
 
         }
 
-        // Кнопка "Все выполнены" task
-        val btnSetAllCheck: Button = findViewById(R.id.btn_set_all_check)
-        btnSetAllCheck.setOnClickListener {
-
-            model.setAllComplete()
-            model.setFilterType(to = FilterType.ALL)
-            changeToAll(rb_group)
-
-
         }
-    }
 
-    private suspend fun feedTheCat() {
-        model.feedMyCat( )
-    }
 
     override fun onItemClick(position: Int) {
         Toast.makeText(this, "Пункт $position нажат", Toast.LENGTH_LONG).show()
@@ -113,11 +91,13 @@ class MainActivity : AppCompatActivity(), RecyclerViewAdapter.OnItemClickListene
         val manager = supportFragmentManager
         ditaile_dialog.show(manager, "add_dialog")
     }
-    override fun onCheckBoxClick(task: TaskModel, isChecked: Int) {
-        model.onTaskCheckedChange(task, isChecked)
+
+    override fun onCheckBoxClick(id: Int?, isChecked: Boolean) {
+
+        model.onTaskCheckedChange(id, isChecked)
     }
 
-    fun changeToAll (rb_group:RadioGroup){
+    fun changeToAll(rb_group: RadioGroup) {
         rb_group.clearCheck()
         rb_group.check(R.id.btn_all)
     }

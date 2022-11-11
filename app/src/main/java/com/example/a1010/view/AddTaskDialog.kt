@@ -41,7 +41,7 @@ class AddTaskDialog : DialogFragment() {
 
             else {
                 var taskName: String = et_add_task.text.toString().trim()
-                model.insert(taskName, 0)
+                model.insert(taskName)
                 model.setFilterType(to = FilterType.ALL)
                 (context as MainActivity).changeToAll((context as MainActivity).findViewById(R.id.fild_for_btns))
 
