@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity(), RecyclerViewAdapter.OnItemClickListene
 
         model.tasks.observe(this, Observer { tasks ->
             // Привязываем список задач к recycler view
-         //   recyclerView.adapter = RecyclerViewAdapter(tasks, this)
+           recyclerView.adapter = RecyclerViewAdapter(tasks, this)
             tvCount.setText("${model.tasks.value!!.count()}") })
 
         // Радио группа для фильтрации списка задач

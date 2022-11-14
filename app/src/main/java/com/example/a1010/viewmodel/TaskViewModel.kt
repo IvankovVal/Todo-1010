@@ -25,6 +25,7 @@ class TaskViewModel(application: Application) : AndroidViewModel(application) {
         )
     }
     val tasks: LiveData<ArrayList<TaskModel>> = db
+    private var page = 1
 
 
     fun setFilterType(to: FilterType) {
@@ -41,7 +42,7 @@ class TaskViewModel(application: Application) : AndroidViewModel(application) {
         viewModelScope.launch(Dispatchers.IO) {
 
             //объект URL
-            val url = URL("https://news-feed.dunice-testing.com/api/v1/todo?page=1&perPage=8")
+            val url = URL("https://news-feed.dunice-testing.com/api/v1/todo?page=$page&perPage=8")
 
             //создаём соединение вызывая метод объекта URL
             val httpsURLConnection = url.openConnection() as HttpsURLConnection
@@ -62,7 +63,7 @@ class TaskViewModel(application: Application) : AndroidViewModel(application) {
 
                     for (i in 0 until contentArray.length()) {
                         val task = contentArray.getJSONObject(i)
-                        taskList.plus (TaskModel.parseFromJSONObject(task))
+                        taskList.add (TaskModel.parseFromJSONObject(task))
                     }
 
                     //-------------переменная со списком
