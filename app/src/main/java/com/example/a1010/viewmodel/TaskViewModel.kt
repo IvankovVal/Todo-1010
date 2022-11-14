@@ -41,7 +41,7 @@ class TaskViewModel(application: Application) : AndroidViewModel(application) {
         viewModelScope.launch(Dispatchers.IO) {
 
             //объект URL
-            val url = URL("https://news-feed.dunice-testing.com/api/v1/todo?page=$1&perPage=8")
+            val url = URL("https://news-feed.dunice-testing.com/api/v1/todo?page=1&perPage=8")
 
             //создаём соединение вызывая метод объекта URL
             val httpsURLConnection = url.openConnection() as HttpsURLConnection
@@ -58,7 +58,7 @@ class TaskViewModel(application: Application) : AndroidViewModel(application) {
                     val jsonArray = JSONTokener(response).nextValue() as JSONObject
                     val data = jsonArray.getJSONObject("data")
                     val contentArray = data.getJSONArray("content")
-                    val taskList: List <TaskModel> = mutableListOf()
+                    val taskList: ArrayList <TaskModel> = ArrayList()
 
                     for (i in 0 until contentArray.length()) {
                         val task = contentArray.getJSONObject(i)
@@ -66,14 +66,13 @@ class TaskViewModel(application: Application) : AndroidViewModel(application) {
                     }
 
                     //-------------переменная со списком
-                    //val loadTasks = itemsArray
-                    val loadTasks = when (filterType.value) {
+                    val loadTasks: ArrayList<TaskModel>? = when (filterType.value) {
                         FilterType.ALL -> taskList
-                        FilterType.COMPLETE -> taskList.filter { it.status == true }
-                        FilterType.ACTIVE -> taskList.filter { it.status == false }
+                        FilterType.COMPLETE -> taskList.filter { it.status == true } as ArrayList<TaskModel>
+                        FilterType.ACTIVE -> taskList.filter { it.status == false } as ArrayList<TaskModel>
                         else -> null}
 
-                        db.postValue(loadTasks as ArrayList<TaskModel>?)
+                        db.postValue(loadTasks)
 
                     }
 
