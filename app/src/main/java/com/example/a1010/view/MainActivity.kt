@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.a1010.R
 import com.example.a1010.databinding.ActivityMainBinding
+import com.example.a1010.viewmodel.FilterType
 import com.example.a1010.viewmodel.TaskViewModel
 
 class MainActivity : AppCompatActivity(), RecyclerViewAdapter.OnItemClickListener {
@@ -24,43 +25,32 @@ class MainActivity : AppCompatActivity(), RecyclerViewAdapter.OnItemClickListene
         setContentView(view)
 
 
-        // Get the view model
+        // Получаем viewmodel
         model = ViewModelProviders.of(this).get(TaskViewModel::class.java)
-
-        // Specify layout for recycler view
+        // Настраиваем макет recycler view
         recyclerView = findViewById(R.id.recyclerView)
-
-        val linearLayoutManager = LinearLayoutManager(
-            this, RecyclerView.VERTICAL, false
-        )
+        val linearLayoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         recyclerView.layoutManager = linearLayoutManager
-
-
-        //Текст радио-кнопок
+        //Text View для счётчика задач
         val tvCount: TextView = findViewById(R.id.tv_task_count)
 
         model.tasks.observe(this, Observer { tasks ->
-            // Data bind the recycler view
+            // Привязываем список задач к recycler view
             recyclerView.adapter = RecyclerViewAdapter(tasks, this)
-            tvCount.setText("${model.tasks.value!!.count()}")
+            tvCount.setText("${model.tasks.value!!.count()}") })
 
-
-        })
+        // Радио группа для фильтрации списка задач
         val rb_group: RadioGroup = findViewById(R.id.fild_for_btns)
-
-
         rb_group.setOnCheckedChangeListener { group, checkedId ->
             when (checkedId) {
                 R.id.btn_all -> {
-                    model.tasks
+                    model.setFilterType(FilterType.ALL)
                 }
                 R.id.btn_complete -> {
-                    TODO()
-                    // model.tasks.value!!.filter { it.status = true }
+                    model.setFilterType(FilterType.COMPLETE)
                 }
                 R.id.btn_active -> {
-                    TODO()
-                    // model.tasks.value!!.filter { it.status = false  }
+                    model.setFilterType(FilterType.ACTIVE)
                 }
             }
         }
@@ -82,7 +72,7 @@ class MainActivity : AppCompatActivity(), RecyclerViewAdapter.OnItemClickListene
 
         }
 
-        }
+    }
 
 
     override fun onItemClick(position: Int) {

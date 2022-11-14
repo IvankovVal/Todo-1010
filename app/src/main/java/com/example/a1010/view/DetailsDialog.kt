@@ -44,7 +44,7 @@ class DetailsDialog(var itemPosition: Int) : BottomSheetDialogFragment() {
         binding?.btnDelete?.setOnClickListener {
 
             model.delete_task(task.id!!.toInt())
-            model.getAllTasks()
+          //  model.getAllTasks()
             model.setFilterType(to = FilterType.ALL)
             (context as MainActivity).changeToAll((context as MainActivity).findViewById(R.id.fild_for_btns))
 
@@ -61,11 +61,10 @@ class DetailsDialog(var itemPosition: Int) : BottomSheetDialogFragment() {
                 //в таск кладём id этого task и имя задачи из edittext
                 model.update_task(
                     task.id!!,
-                    binding?.etNametaskDetails?.text.toString(),
-                    task.status
+                    binding?.etNametaskDetails?.text.toString()
                 )
                 Toast.makeText(context, "Отредактировано", Toast.LENGTH_LONG).show()
-                model.getAllTasks()
+              //  model.getAllTasks()
                 model.setFilterType(to = FilterType.ALL)
                 (context as MainActivity).changeToAll((context as MainActivity).findViewById(R.id.fild_for_btns))
 
