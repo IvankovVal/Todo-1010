@@ -14,7 +14,7 @@ import com.example.a1010.R
 import com.example.a1010.model.TaskModel
 
 class RecyclerViewAdapter(
-    val tasks: List<TaskModel>,
+    val tasks: ArrayList<TaskModel>,
     private val listener: OnItemClickListener
 )
     : RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>(){

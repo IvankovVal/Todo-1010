@@ -3,10 +3,7 @@ package com.example.a1010.viewmodel
 import android.app.Application
 import androidx.lifecycle.*
 import com.example.a1010.model.TaskModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import org.json.JSONObject
 import org.json.JSONTokener
 import java.io.OutputStreamWriter
@@ -32,32 +29,30 @@ class TaskViewModel(application: Application) : AndroidViewModel(application) {
 
     fun setFilterType(to: FilterType) {
         filterType.value = to
-        suspend { getAllTasks() }
+         getAllTasks()
     }
 
     init {
-        suspend { getAllTasks() }
+         getAllTasks()
     }
 
     //-------------Функция получения всех задач-------------------------------------------
-//https://news-feed.dunice-testing.com/api/v1/todo?page=1&perPage=1
-    suspend fun getAllTasks() {
-        viewModelScope.launch {
+    fun getAllTasks() {
+        viewModelScope.launch(Dispatchers.IO) {
 
             //объект URL
-            var url = URL("https://news-feed.dunice-testing.com/api/v1/todo?page=$1&perPage=8")
+            val url = URL("https://news-feed.dunice-testing.com/api/v1/todo?page=$1&perPage=8")
 
             //создаём соединение вызывая метод объекта URL
             val httpsURLConnection = url.openConnection() as HttpsURLConnection
             httpsURLConnection.requestMethod = "GET"//метод запроса
             httpsURLConnection.setRequestProperty("Accept", "application/json")//тип данных
             httpsURLConnection.doInput = true//собираемся получать
-            httpsURLConnection.doOutput = false//мы ничего не постим
-           // httpsURLConnection.connect()//дома
+            httpsURLConnection.doOutput = false
 
             val responseCode = httpsURLConnection.responseCode
             if (responseCode == HttpsURLConnection.HTTP_OK) {
-                val response = httpsURLConnection.inputStream.bufferedReader()
+                val response = httpsURLConnection.inputStream.bufferedReader()//отклик
                     .use { it.readText() }
                 withContext(Dispatchers.IO) {
                     val jsonArray = JSONTokener(response).nextValue() as JSONObject
@@ -79,10 +74,13 @@ class TaskViewModel(application: Application) : AndroidViewModel(application) {
                         else -> null}
 
                         db.postValue(loadTasks as ArrayList<TaskModel>?)
+
                     }
 
                 }
+
             }
+       // return loadTasks
         }
 
 
