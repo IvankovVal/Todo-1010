@@ -32,12 +32,18 @@ class MainActivity : AppCompatActivity(), RecyclerViewAdapter.OnItemClickListene
         val linearLayoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         recyclerView.layoutManager = linearLayoutManager
         //Text View для счётчика задач
-        val tvCount: TextView = findViewById(R.id.tv_task_count)
+        val tvAllCount: TextView = findViewById(R.id.tv_alltask_count)
+        val tvcomplCount: TextView = findViewById(R.id.tv_completetask_count)
+        val tvactCount: TextView = findViewById(R.id.tv_activetask_count)
 
         model.tasks.observe(this, Observer { tasks ->
             // Привязываем список задач к recycler view
            recyclerView.adapter = RecyclerViewAdapter(tasks, this)
-            tvCount.setText("${model.tasks.value!!.count()}") })
+            tvAllCount.setText("${model.allCount }")
+        tvcomplCount.setText("${model.completeCount}")
+            tvactCount.setText("${model.activeCount}")
+        })
+
 
         // Радио группа для фильтрации списка задач
         val rb_group: RadioGroup = findViewById(R.id.fild_for_btns)

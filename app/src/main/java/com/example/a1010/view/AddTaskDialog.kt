@@ -21,26 +21,26 @@ class AddTaskDialog : DialogFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         val view: View = inflater.inflate(R.layout.add_dialog, container, false)
-        val btn_save: Button = view.findViewById(R.id.btn_save)
-        val btn_cancel: Button = view.findViewById(R.id.btn_cancel)
-        val et_add_task: EditText = view.findViewById(R.id.et_add_task)
+        val btnSave: Button = view.findViewById(R.id.btn_save)
+        val btnCancel: Button = view.findViewById(R.id.btn_cancel)
+        val etAddTask: EditText = view.findViewById(R.id.et_add_task)
         model = ViewModelProviders.of(this).get(TaskViewModel::class.java)
 
         //Кнопка выключения диалога
-        btn_cancel.setOnClickListener {
+        btnCancel.setOnClickListener {
             dialog?.cancel()
         }
 
         //Кнопка сохранения задачи
-        btn_save.setOnClickListener {
-            if (et_add_task.text.toString() == "" || et_add_task.text.length < 3 || et_add_task.text.length > 50) {
+        btnSave.setOnClickListener {
+            if (etAddTask.text.toString() == "" || etAddTask.text.length < 3 || etAddTask.text.length > 50) {
                 Toast.makeText(context, "Не верный формат ввода", Toast.LENGTH_LONG).show()
             }
 
             else {
-                var taskName: String = et_add_task.text.toString().trim()
+                val taskName: String = etAddTask.text.toString().trim()
                 model.insert(taskName)
                 model.setFilterType(to = FilterType.ALL)
                 (context as MainActivity).changeToAll((context as MainActivity).findViewById(R.id.fild_for_btns))

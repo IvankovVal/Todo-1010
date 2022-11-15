@@ -40,17 +40,50 @@
 
     </RadioGroup>
 
-    <TextView
-        android:id="@+id/tv_task_count"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Количество задач"
-        android:textColor="@color/black"
-        android:textSize="20dp"
-        android:textStyle="bold"
-         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/fild_for_btns"/>
+
+        <TextView
+            android:id="@+id/tv_alltask_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textColor="@color/black"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:layout_weight="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/tv_activetask_count"
+            app:layout_constraintTop_toBottomOf="@id/fild_for_btns"
+            />
+        <TextView
+            android:id="@+id/tv_activetask_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textColor="@color/black"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:layout_weight="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_alltask_count"
+            />
+        <TextView
+            android:id="@+id/tv_completetask_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textColor="@color/black"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:layout_weight="1"
+            app:layout_constraintStart_toEndOf="@id/tv_activetask_count"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_alltask_count"
+            />
+
+
+
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
@@ -64,7 +97,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_task_count"
+        app:layout_constraintTop_toBottomOf="@id/tv_alltask_count"
         app:layout_constraintVertical_bias="0.0"
         tools:listitem="@layout/custom_view"/>
 
