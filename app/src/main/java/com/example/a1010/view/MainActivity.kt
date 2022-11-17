@@ -76,18 +76,22 @@ class MainActivity : AppCompatActivity(), RecyclerViewAdapter.OnItemClickListene
                         if((Math.ceil((model.allCount/8.0)).toInt() == model.page) || (Math.ceil((model.allCount/8.0)).toInt() > model.page)){
                             model.getAllTasks()
                             rbAll.isChecked = true
-                            Toast.makeText(currentActivity, "На стр.${model.page}", Toast.LENGTH_LONG).show()}
+                           // Toast.makeText(currentActivity, "На стр.${model.page}", Toast.LENGTH_LONG).show()
+                        }
                         else {model.page = model.page - 1
-                            Toast.makeText(currentActivity, "Конец стр.${model.page}", Toast.LENGTH_LONG).show()}
+                           // Toast.makeText(currentActivity, "Конец стр.${model.page}", Toast.LENGTH_LONG).show()
+                        }
                     }
                     if(!recyclerView.canScrollVertically(-1) && newState == RecyclerView.SCROLL_STATE_IDLE) {
                         model.page = model.page - 1
                         if(model.page !== 0){
                             model.getAllTasks()
                             rbAll.isChecked = true
-                            Toast.makeText(currentActivity, "На стр.${model.page}", Toast.LENGTH_LONG).show()}
+                            //Toast.makeText(currentActivity, "На стр.${model.page}", Toast.LENGTH_LONG).show()
+                        }
                         else {model.page = model.page + 1
-                            Toast.makeText(currentActivity, "Начало стр.${model.page}", Toast.LENGTH_LONG).show()}
+                          //  Toast.makeText(currentActivity, "Начало стр.${model.page}", Toast.LENGTH_LONG).show()
+                        }
                     }
                 }
             })
