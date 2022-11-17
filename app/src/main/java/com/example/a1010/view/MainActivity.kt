@@ -35,44 +35,6 @@ class MainActivity : AppCompatActivity(), RecyclerViewAdapter.OnItemClickListene
         val linearLayoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         recyclerView.layoutManager = linearLayoutManager
 
-        //Радио кнопки
-        val rbAll:RadioButton = findViewById(R.id.btn_all)
-        val rbComplete:RadioButton = findViewById(R.id.btn_complete)
-        val rbActive:RadioButton = findViewById(R.id.btn_active)
-      //  val r
-
-        model.tasks.observe(this, Observer { tasks ->
-            // Привязываем список задач к recycler view
-           recyclerView.adapter = RecyclerViewAdapter(tasks, this)
-            rbAll.setText("Все ${model.allCount }")
-            rbComplete.setText("Готово ${model.completeCount}")
-            rbActive.setText("В работе ${model.activeCount}")
-
-            recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                    super.onScrollStateChanged(recyclerView, newState)
-                    if (!recyclerView.canScrollVertically(1) && newState == RecyclerView.SCROLL_STATE_IDLE) {
-                        model.page = model.page + 1
-                        if((Math.ceil((model.allCount/8.0)).toInt() == model.page) || (Math.ceil((model.allCount/8.0)).toInt() > model.page)){
-
-                            model.getAllTasks()
-                            Toast.makeText(currentActivity, "На стр.${model.page}", Toast.LENGTH_LONG).show()}
-                        else {model.page = model.page - 1
-                            Toast.makeText(currentActivity, "Конец стр.${model.page}", Toast.LENGTH_LONG).show()}
-                    }
-                    if(!recyclerView.canScrollVertically(-1) && newState == RecyclerView.SCROLL_STATE_IDLE) {
-                        model.page = model.page - 1
-                        if(model.page !== 0){
-                            model.getAllTasks()
-                            Toast.makeText(currentActivity, "На стр.${model.page}", Toast.LENGTH_LONG).show()}
-                        else {model.page = model.page + 1
-                            Toast.makeText(currentActivity, "Начало стр.${model.page}", Toast.LENGTH_LONG).show()}
-                    }
-                }
-            })
-        })
-
-
         // Радио группа для фильтрации списка задач
         val rbGroup: RadioGroup = findViewById(R.id.fild_for_btns)
         rbGroup.setOnCheckedChangeListener { _, checkedId ->
@@ -88,6 +50,51 @@ class MainActivity : AppCompatActivity(), RecyclerViewAdapter.OnItemClickListene
                 }
             }
         }
+
+        //Радио кнопки
+        val rbAll:RadioButton = findViewById(R.id.btn_all)
+        val rbComplete:RadioButton = findViewById(R.id.btn_complete)
+        val rbActive:RadioButton = findViewById(R.id.btn_active)
+
+        val tvPageInfo:TextView = findViewById(R.id.tv_page_info)
+
+
+        model.tasks.observe(this, Observer { tasks ->
+            // Привязываем список задач к recycler view
+           recyclerView.adapter = RecyclerViewAdapter(tasks, this)
+            rbAll.setText("Все ${model.allCount }")
+            rbComplete.setText("Готово ${model.completeCount}")
+            rbActive.setText("В работе ${model.activeCount}")
+
+            tvPageInfo.setText("Страница ${model.page} из ${(Math.ceil((model.allCount/8.0)).toInt())}")
+
+            recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                    super.onScrollStateChanged(recyclerView, newState)
+                    if (!recyclerView.canScrollVertically(1) && newState == RecyclerView.SCROLL_STATE_IDLE) {
+                        model.page = model.page + 1
+                        if((Math.ceil((model.allCount/8.0)).toInt() == model.page) || (Math.ceil((model.allCount/8.0)).toInt() > model.page)){
+                            model.getAllTasks()
+                            rbAll.isChecked = true
+                            Toast.makeText(currentActivity, "На стр.${model.page}", Toast.LENGTH_LONG).show()}
+                        else {model.page = model.page - 1
+                            Toast.makeText(currentActivity, "Конец стр.${model.page}", Toast.LENGTH_LONG).show()}
+                    }
+                    if(!recyclerView.canScrollVertically(-1) && newState == RecyclerView.SCROLL_STATE_IDLE) {
+                        model.page = model.page - 1
+                        if(model.page !== 0){
+                            model.getAllTasks()
+                            rbAll.isChecked = true
+                            Toast.makeText(currentActivity, "На стр.${model.page}", Toast.LENGTH_LONG).show()}
+                        else {model.page = model.page + 1
+                            Toast.makeText(currentActivity, "Начало стр.${model.page}", Toast.LENGTH_LONG).show()}
+                    }
+                }
+            })
+        })
+
+
+
         // Кнопка добавления задания
         val btn: Button = findViewById(R.id.btn)
         btn.setOnClickListener {
