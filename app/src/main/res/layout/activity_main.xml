@@ -8,6 +8,7 @@
     android:id="@+id/rootLayout"
     tools:context=".view.MainActivity"
     android:background="#fdfdfc">
+
     <RadioGroup
         android:id="@+id/fild_for_btns"
         android:layout_width="match_parent"

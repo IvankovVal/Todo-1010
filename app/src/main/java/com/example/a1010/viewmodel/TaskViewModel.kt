@@ -22,8 +22,8 @@ class TaskViewModel(application: Application) : AndroidViewModel(application) {
         )
     }
     val tasks: LiveData<ArrayList<TaskModel>> = db
-    private var page = 1
-    var allCount:Int = 0
+    var page = 1
+    var allCount = 0
     var activeCount:Int = 0
     var completeCount:Int = 0
 
@@ -34,7 +34,7 @@ class TaskViewModel(application: Application) : AndroidViewModel(application) {
     init { getAllTasks() }
 
     //-------------Функция получения всех задач-------------------------------------------
-    private fun getAllTasks() {
+    fun getAllTasks() {
         viewModelScope.launch(Dispatchers.IO) {
             //объект URL
             val url = URL("https://news-feed.dunice-testing.com/api/v1/todo?page=$page&perPage=8")
@@ -69,21 +69,7 @@ class TaskViewModel(application: Application) : AndroidViewModel(application) {
                     activeCount = data.getInt("notReady")
                     completeCount = data.getInt("ready")
 
-//                    if (data.getInt("numberOfElements") == adapter.itemCount) {
-//                        page = 0
-//                        taskList = emptyList()
-//                        Handler().postDelayed({
-//                            getAllTasks()
-//                        }, 100)
-//                    }
-//                    if (data.getInt("numberOfElements") > adapter.itemCount) {
-//                        taskList = itemsArray
-//                        tasks.value = tasks.value?.plus(itemsArray)
-//                        page += 1
-//                    }
-//
-//            else {
-//            }
+
                         db.postValue(loadTasks)
                     } } }}
         //-------------Функция добавления задачи-------------------------------------------

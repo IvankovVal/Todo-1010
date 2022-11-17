@@ -1,8 +1,8 @@
 package com.example.a1010.view
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,7 +16,7 @@ class MainActivity : AppCompatActivity(), RecyclerViewAdapter.OnItemClickListene
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var model: TaskViewModel
-    lateinit var recyclerView: RecyclerView
+    private lateinit var recyclerView: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,6 +29,9 @@ class MainActivity : AppCompatActivity(), RecyclerViewAdapter.OnItemClickListene
         model = ViewModelProviders.of(this).get(TaskViewModel::class.java)
         // Настраиваем макет recycler view
         recyclerView = findViewById(R.id.recyclerView)
+        //обновление RV при достижении конца списка
+        val currentActivity = this
+
         val linearLayoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         recyclerView.layoutManager = linearLayoutManager
         //Text View для счётчика задач
@@ -42,12 +45,34 @@ class MainActivity : AppCompatActivity(), RecyclerViewAdapter.OnItemClickListene
             tvAllCount.setText("${model.allCount }")
         tvcomplCount.setText("${model.completeCount}")
             tvactCount.setText("${model.activeCount}")
+
+            recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                    super.onScrollStateChanged(recyclerView, newState)
+                    if (!recyclerView.canScrollVertically(1) && newState == RecyclerView.SCROLL_STATE_IDLE) {
+                        model.page = model.page + 1
+                        if((Math.ceil((model.allCount/8.0)).toInt() == model.page) || (Math.ceil((model.allCount/8.0)).toInt() > model.page)){
+                            model.getAllTasks()
+                            Toast.makeText(currentActivity, "На стр.${model.page}", Toast.LENGTH_LONG).show()}
+                        else {model.page = model.page - 1
+                            Toast.makeText(currentActivity, "Конец стр.${model.page}", Toast.LENGTH_LONG).show()}
+                    }
+                    if(!recyclerView.canScrollVertically(-1) && newState == RecyclerView.SCROLL_STATE_IDLE) {
+                        model.page = model.page - 1
+                        if(model.page !== 0){
+                            model.getAllTasks()
+                            Toast.makeText(currentActivity, "На стр.${model.page}", Toast.LENGTH_LONG).show()}
+                        else {model.page = model.page + 1
+                            Toast.makeText(currentActivity, "Начало стр.${model.page}", Toast.LENGTH_LONG).show()}
+                    }
+                }
+            })
         })
 
 
         // Радио группа для фильтрации списка задач
-        val rb_group: RadioGroup = findViewById(R.id.fild_for_btns)
-        rb_group.setOnCheckedChangeListener { group, checkedId ->
+        val rbGroup: RadioGroup = findViewById(R.id.fild_for_btns)
+        rbGroup.setOnCheckedChangeListener { _, checkedId ->
             when (checkedId) {
                 R.id.btn_all -> {
                     model.setFilterType(FilterType.ALL)
@@ -74,7 +99,7 @@ class MainActivity : AppCompatActivity(), RecyclerViewAdapter.OnItemClickListene
 
             model.delComTasks()
 //            model.setFilterType(to = FilterType.ALL)
-            changeToAll(rb_group)
+            changeToAll(rbGroup)
 
         }
 
