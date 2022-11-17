@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity(), RecyclerViewAdapter.OnItemClickListene
         setContentView(view)
 
 
-        // Получаем viewmodel
+        // Получаем viewModel
         model = ViewModelProviders.of(this).get(TaskViewModel::class.java)
         // Настраиваем макет recycler view
         recyclerView = findViewById(R.id.recyclerView)
@@ -34,17 +34,19 @@ class MainActivity : AppCompatActivity(), RecyclerViewAdapter.OnItemClickListene
 
         val linearLayoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         recyclerView.layoutManager = linearLayoutManager
-        //Text View для счётчика задач
-        val tvAllCount: TextView = findViewById(R.id.tv_alltask_count)
-        val tvcomplCount: TextView = findViewById(R.id.tv_completetask_count)
-        val tvactCount: TextView = findViewById(R.id.tv_activetask_count)
+
+        //Радио кнопки
+        val rbAll:RadioButton = findViewById(R.id.btn_all)
+        val rbComplete:RadioButton = findViewById(R.id.btn_complete)
+        val rbActive:RadioButton = findViewById(R.id.btn_active)
+      //  val r
 
         model.tasks.observe(this, Observer { tasks ->
             // Привязываем список задач к recycler view
            recyclerView.adapter = RecyclerViewAdapter(tasks, this)
-            tvAllCount.setText("${model.allCount }")
-        tvcomplCount.setText("${model.completeCount}")
-            tvactCount.setText("${model.activeCount}")
+            rbAll.setText("Все ${model.allCount }")
+            rbComplete.setText("Готово ${model.completeCount}")
+            rbActive.setText("В работе ${model.activeCount}")
 
             recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
@@ -52,6 +54,7 @@ class MainActivity : AppCompatActivity(), RecyclerViewAdapter.OnItemClickListene
                     if (!recyclerView.canScrollVertically(1) && newState == RecyclerView.SCROLL_STATE_IDLE) {
                         model.page = model.page + 1
                         if((Math.ceil((model.allCount/8.0)).toInt() == model.page) || (Math.ceil((model.allCount/8.0)).toInt() > model.page)){
+
                             model.getAllTasks()
                             Toast.makeText(currentActivity, "На стр.${model.page}", Toast.LENGTH_LONG).show()}
                         else {model.page = model.page - 1
@@ -89,9 +92,9 @@ class MainActivity : AppCompatActivity(), RecyclerViewAdapter.OnItemClickListene
         val btn: Button = findViewById(R.id.btn)
         btn.setOnClickListener {
 
-            val add_dialog = AddTaskDialog()
+            val addDialog = AddTaskDialog()
             val manager = supportFragmentManager
-            add_dialog.show(manager, "add_dialog")
+            addDialog.show(manager, "add_dialog")
         }
         // Кнопка удаления выполненных заданий
         val btnDelCom: Button = findViewById(R.id.btn_del_compl)
@@ -108,9 +111,9 @@ class MainActivity : AppCompatActivity(), RecyclerViewAdapter.OnItemClickListene
 
     override fun onItemClick(position: Int) {
         Toast.makeText(this, "Пункт $position нажат", Toast.LENGTH_LONG).show()
-        val ditaile_dialog = DetailsDialog(position)
+        val detailDialog = DetailsDialog(position)
         val manager = supportFragmentManager
-        ditaile_dialog.show(manager, "add_dialog")
+        detailDialog.show(manager, "add_dialog")
     }
 
     override fun onCheckBoxClick(id: Int?, isChecked: Boolean) {
